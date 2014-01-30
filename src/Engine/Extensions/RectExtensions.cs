@@ -1,9 +1,9 @@
-﻿using Engine.NativeMethods;
+﻿using HuntnPeck.Engine.NativeMethods;
 using System;
 using System.Drawing;
 using System.Windows;
 
-namespace Engine.Extensions
+namespace HuntnPeck.Engine.Extensions
 {
     public static class RectExtensions
     {
@@ -23,6 +23,21 @@ namespace Engine.Extensions
             }
 
             return Rect.Empty;
+        }
+
+        /// <summary>
+        /// Converts logical screen coordinates to window coordinates for a given window
+        /// </summary>
+        /// <param name="source">The logical screen coordinates</param>
+        /// <param name="windowRect">The bounds of the window in which the source rect lies</param>
+        /// <returns></returns>
+        public static Rect ScreenToWindowCoordinates(this Rect source, Rect windowRect)
+        {
+            Rect result = new Rect(source.TopLeft, source.BottomRight);
+            result.X -= windowRect.X;
+            result.Y -= windowRect.Y;
+
+            return result;
         }
 
         public static Rectangle ToDrawingRectangle(this Rect source)

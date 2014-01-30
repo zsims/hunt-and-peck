@@ -7,8 +7,8 @@
     <ProjectGuid>{CDEFB2EF-42DD-446A-A22A-092133E7B4BC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hunt.n.Peck</RootNamespace>
-    <AssemblyName>Hunt.n.Peck</AssemblyName>
+    <RootNamespace>HuntnPeck.Engine</RootNamespace>
+    <AssemblyName>HuntnPeck</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,14 +42,22 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\HintOverlay.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Forms\HintOverlay.Designer.cs">
+      <DependentUpon>HintOverlay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\TrayListener.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TrayListener.Designer.cs">
+      <DependentUpon>TrayListener.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HuntnPeckApplicationContext.cs" />
     <Compile Include="Forms\DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,8 +69,11 @@
     <EmbeddedResource Include="Forms\DebugForm.resx">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\HintOverlay.resx">
+      <DependentUpon>HintOverlay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TrayListener.resx">
+      <DependentUpon>TrayListener.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -72,6 +83,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -91,6 +103,13 @@
       <Project>{51a8a6b5-d33f-4593-a360-2442de435680}</Project>
       <Name>Engine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NativeMethods\NativeMethods.csproj">
+      <Project>{556f1a03-8752-4c41-bb29-e7fa7ff68cd9}</Project>
+      <Name>NativeMethods</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="originalbird.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

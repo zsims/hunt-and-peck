@@ -1,4 +1,4 @@
-﻿namespace Hunt.n.Peck.Forms
+﻿namespace HuntnPeck.Forms
 {
     partial class DebugForm
     {

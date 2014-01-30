@@ -1,0 +1,5 @@
+*.suo
+src/Engine/obj/
+src/HuntnPeck/bin/
+src/HuntnPeck/obj/
+src/NativeMethods/obj/

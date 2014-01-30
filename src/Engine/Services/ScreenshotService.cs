@@ -1,11 +1,11 @@
-﻿using Engine.NativeMethods;
-using Engine.Services.Interfaces;
+﻿using HuntnPeck.Engine.NativeMethods;
+using HuntnPeck.Engine.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace Engine.Services
+namespace HuntnPeck.Engine.Services
 {
     internal class ScreenshotService : IScreenshotService
     {

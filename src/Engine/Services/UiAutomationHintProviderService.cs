@@ -1,7 +1,7 @@
-﻿using Engine.Exceptions;
-using Engine.Extensions;
-using Engine.NativeMethods;
-using Engine.Services.Interfaces;
+﻿using HuntnPeck.Engine.Extensions;
+using HuntnPeck.Engine.Hints;
+using HuntnPeck.Engine.NativeMethods;
+using HuntnPeck.Engine.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 
-namespace Engine.Services
+namespace HuntnPeck.Engine.Services
 {
-    public class UiAutomationHintProviderService : IHintProvider, IHintDebugProvider
+    public class UiAutomationHintProviderService : IHintProviderService, IHintDebugProviderService
     {
         private readonly IScreenshotService _screenshotService;
 
@@ -35,8 +35,8 @@ namespace Engine.Services
         /// <summary>
         /// Enumerate the available hints for the current foreground window
         /// </summary>
-        /// <returns>The collection of available hints</returns>
-        public IEnumerable<Hint> EnumHints()
+        /// <returns>The hint session containing the available hints</returns>
+        public HintSession EnumHints()
         {
             var desktopHandle = User32.GetForegroundWindow();
             return EnumHints(desktopHandle);
@@ -46,15 +46,20 @@ namespace Engine.Services
         /// Enumerate the available hints for the given window
         /// </summary>
         /// <param name="hWnd">The window handle of window to enumerate hints in</param>
-        /// <returns>The collection of available hints</returns>
-        public IEnumerable<Hint> EnumHints(IntPtr hWnd)
+        /// <returns>The hint session containing the available hints</returns>
+        public HintSession EnumHints(IntPtr hWnd)
         {
             var result = new List<Hint>();
             var elements = EnumElements(hWnd);
 
+            // Window bounds
+            RECT rawWindowBounds = new RECT();
+            User32.GetWindowRect(hWnd, ref rawWindowBounds);
+            Rect windowBounds = rawWindowBounds;
+
             foreach (AutomationElement element in elements)
             {
-                var hint = CreateHint(hWnd, element);
+                var hint = CreateHint(hWnd, windowBounds, element);
 
                 if (hint != null)
                 {
@@ -62,7 +67,12 @@ namespace Engine.Services
                 }
             }
 
-            return result;
+            return new HintSession
+            {
+                Hints = result,
+                OwningWindow = hWnd,
+                OwningWindowBounds = windowBounds,
+            };
         }
 
         private AutomationElementCollection EnumElements(IntPtr hWnd)
@@ -78,9 +88,10 @@ namespace Engine.Services
         /// Creates the hint and its bounds
         /// </summary>
         /// <param name="owningWindow">The owning window</param>
+        /// <param name="windowBounds">The window bounds</param>
         /// <param name="automationElement">The associated automation element</param>
         /// <returns>The created hint, else null if the hint could not be created</returns>
-        private UiAutomationHint CreateHint(IntPtr owningWindow, AutomationElement automationElement)
+        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect windowBounds, AutomationElement automationElement)
         {
             var boundingRectObject = automationElement.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty, true);
 
@@ -101,33 +112,20 @@ namespace Engine.Services
             var logicalRect = boundingRect.PhysicalToLogicalRect(owningWindow);
             if (!logicalRect.IsEmpty)
             {
-                return new UiAutomationHint(owningWindow, automationElement, boundingRect);
+                var windowCoords = boundingRect.ScreenToWindowCoordinates(windowBounds);
+                return new UiAutomationHint(owningWindow, automationElement, windowCoords);
             }
 
             return null;
         }
 
-        public Bitmap RenderDebugHints(IEnumerable<Hint> hints)
+        public Bitmap RenderDebugHints(HintSession session)
         {
-            var owningWindows = hints.Select(hint => hint.OwningWindow)
-                                     .Distinct();
-
-            // ensure all the hints come from the same window
-            if(owningWindows.Count() > 1)
-            {
-                throw new NondistinctHintOwnersException();
-            }
-            else if (owningWindows.Count() < 1)
-            {
-                return null;
-            }
-
-            var owner = owningWindows.First();
-            var render = _screenshotService.RenderWindow(owner);
+            var render = _screenshotService.RenderWindow(session.OwningWindow);
 
             using (Graphics graphics = Graphics.FromImage(render))
             {
-                foreach (var hint in hints)
+                foreach (var hint in session.Hints)
                 {
                     graphics.DrawRectangle(new Pen(Color.Red), hint.BoundingRectangle.ToDrawingRectangle());
                 }

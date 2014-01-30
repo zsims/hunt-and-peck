@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Engine.Services.Interfaces
+namespace HuntnPeck.Engine.Services.Interfaces
 {
     /// <summary>
     /// Provides screenshots for given windows

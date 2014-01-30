@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Engine.NativeMethods
+namespace HuntnPeck.Engine.NativeMethods
 {
-    internal class User32
+    public class User32
     {
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
@@ -17,5 +17,13 @@ namespace Engine.NativeMethods
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PhysicalToLogicalPoint(IntPtr hWnd, out POINT lpPoint);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
     }
 }

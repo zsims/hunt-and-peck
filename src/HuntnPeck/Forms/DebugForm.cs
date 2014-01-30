@@ -1,4 +1,4 @@
-﻿using Engine.Services;
+﻿using HuntnPeck.Engine.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Hunt.n.Peck.Forms
+namespace HuntnPeck.Forms
 {
     public partial class DebugForm : Form
     {
