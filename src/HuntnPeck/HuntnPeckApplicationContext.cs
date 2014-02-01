@@ -24,7 +24,7 @@ namespace HuntnPeck
                     if (overlay.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         var selectedHint = overlay.SelectedHint;
-                        selectedHint.Activate();
+                        //selectedHint.Activate();
                     }
                 }
             };

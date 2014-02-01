@@ -73,7 +73,7 @@ namespace HuntnPeck.Forms
         {
             if (m.Msg == Constants.WM_HOTKEY)
             {
-                HotKeyEventArgs e = new HotKeyEventArgs(m.LParam);
+                var e = new HotKeyEventArgs(m.LParam);
 
                 if (e.Key == _hotKey.Item2 &&
                     e.Modifiers == _hotKey.Item1 &&

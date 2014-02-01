@@ -1,12 +1,11 @@
-﻿using HuntnPeck.Engine.Services.Interfaces;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Automation;
 
 namespace HuntnPeck.Engine.Hints
 {
     /// <summary>
-    /// Represents a Windows 
+    /// Represents a Windows UI Automation based hint
     /// </summary>
     internal class UiAutomationHint : Hint
     {
@@ -20,31 +19,5 @@ namespace HuntnPeck.Engine.Hints
         /// The underlying automation element
         /// </summary>
         public AutomationElement AutomationElement { get; private set; }
-
-        public override void Activate()
-        {
-            /*
-            var invokePattern = AutomationElement.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
-            if (invokePattern != null)
-            {
-                invokePattern.Invoke();
-            }
-
-            var patterns = AutomationElement.GetSupportedPatterns();
-
-            ExpandCollapsePattern pattern;
-            try
-            {
-                pattern = AutomationElement.GetCurrentPattern(ExpandCollapsePattern.Pattern) as ExpandCollapsePattern;
-            }
-            catch (InvalidOperationException ex)
-            {
-                // Most likely "Pattern not supported." 
-                return;
-            }
-
-            pattern.Collapse();
-             */
-        }
     }
 }

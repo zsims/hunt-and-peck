@@ -28,28 +28,42 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.SuspendLayout();
-			// 
-			// OverlayForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 262);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MinimizeBox = false;
-			this.Name = "OverlayForm";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "HuntAndPeck";
-			this.TopMost = true;
-			this.Load += new System.EventHandler(this.OverlayForm_Load);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.OverlayForm_Paint);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OverlayForm_KeyDown);
-			this.ResumeLayout(false);
+            this.textBoxHintInput = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // textBoxHintInput
+            // 
+            this.textBoxHintInput.Location = new System.Drawing.Point(54, 56);
+            this.textBoxHintInput.Name = "textBoxHintInput";
+            this.textBoxHintInput.Size = new System.Drawing.Size(100, 20);
+            this.textBoxHintInput.TabIndex = 0;
+            this.textBoxHintInput.TextChanged += new System.EventHandler(this.textBoxHintInput_TextChanged);
+            this.textBoxHintInput.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textBoxHintInput_PreviewKeyDown);
+            // 
+            // HintOverlay
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.textBoxHintInput);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MinimizeBox = false;
+            this.Name = "HintOverlay";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "HuntAndPeck";
+            this.TopMost = true;
+            this.Deactivate += new System.EventHandler(this.HintOverlay_Deactivate);
+            this.Load += new System.EventHandler(this.OverlayForm_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.OverlayForm_Paint);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
 		#endregion
+
+        private System.Windows.Forms.TextBox textBoxHintInput;
 	}
 }

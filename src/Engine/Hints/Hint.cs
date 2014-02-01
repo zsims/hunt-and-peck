@@ -1,16 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace HuntnPeck.Engine.Hints
 {
-    public abstract class Hint
+    /// <summary>
+    /// Represents a hint that has 1 or more capabilities
+    /// </summary>
+    public class Hint
     {
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="owningWindow">The owning window</param>
+        /// <param name="boundingRectangle">The bounding rectangle of the hint in owner window coordinates</param>
         public Hint(IntPtr owningWindow, Rect boundingRectangle)
         {
             OwningWindow = owningWindow;
             BoundingRectangle = boundingRectangle;
 
             Label = string.Empty;
+
+            Capabilities = new HintCapabilityBase[] { };
         }
 
         /// <summary>
@@ -23,11 +34,14 @@ namespace HuntnPeck.Engine.Hints
         /// </summary>
         public Rect BoundingRectangle { get; private set; }
 
+        /// <summary>
+        /// The window handle of the owning window
+        /// </summary>
         public IntPtr OwningWindow { get; private set; }
 
         /// <summary>
-        /// Activates the hint
+        /// The hint capabilities
         /// </summary>
-        public abstract void Activate();
+        public IEnumerable<HintCapabilityBase> Capabilities { get; private set; }
     }
 }

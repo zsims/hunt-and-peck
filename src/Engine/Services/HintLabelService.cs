@@ -13,11 +13,11 @@ namespace HuntnPeck.Engine.Services
         public void LabelHints(IEnumerable<Hint> hints)
         {
             var count = hints.Count();
-            var labels = GetHintStrings(hints.Count());
+            //var labels = GetHintStrings(hints.Count());
 
             for(int i = 0; i < count; ++i)
             {
-                var label = labels.ElementAt(i);
+                var label = i.ToString();//labels.ElementAt(i);
                 var hint = hints.ElementAt(i);
 
                 hint.Label = label;

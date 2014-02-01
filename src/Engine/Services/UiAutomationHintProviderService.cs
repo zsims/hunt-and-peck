@@ -11,25 +11,24 @@ using System.Windows.Automation;
 
 namespace HuntnPeck.Engine.Services
 {
-    public class UiAutomationHintProviderService : IHintProviderService, IHintDebugProviderService
+    public class UiAutomationHintProviderService : IHintProviderService
     {
-        private readonly IScreenshotService _screenshotService;
+        private readonly IUiAutomationHintFactory _hintFactory;
 
         /// <summary>
         /// Ctor
         /// </summary>
         public UiAutomationHintProviderService()
         {
-            _screenshotService = new ScreenshotService();
+            _hintFactory = new UiAutomationHintFactory();
         }
 
         /// <summary>
         /// Ctor
         /// </summary>
-        /// <param name="screenshotService"></param>
-        internal UiAutomationHintProviderService(IScreenshotService screenshotService)
+        internal UiAutomationHintProviderService(IUiAutomationHintFactory hintFactory)
         {
-            _screenshotService = screenshotService;
+            _hintFactory = hintFactory;
         }
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace HuntnPeck.Engine.Services
 
             foreach (AutomationElement element in elements)
             {
-                var hint = CreateHint(hWnd, windowBounds, element);
+                var hint = _hintFactory.CreateHint(hWnd, windowBounds, element);
 
                 if (hint != null)
                 {
@@ -75,6 +74,11 @@ namespace HuntnPeck.Engine.Services
             };
         }
 
+        /// <summary>
+        /// Enumerates the automation elements from the given window
+        /// </summary>
+        /// <param name="hWnd">The window handle</param>
+        /// <returns>All of the automation elements found</returns>
         private AutomationElementCollection EnumElements(IntPtr hWnd)
         {
             var automationElement = AutomationElement.FromHandle(hWnd);
@@ -84,54 +88,5 @@ namespace HuntnPeck.Engine.Services
             return automationElement.FindAll(TreeScope.Descendants, condition);
         }
 
-        /// <summary>
-        /// Creates the hint and its bounds
-        /// </summary>
-        /// <param name="owningWindow">The owning window</param>
-        /// <param name="windowBounds">The window bounds</param>
-        /// <param name="automationElement">The associated automation element</param>
-        /// <returns>The created hint, else null if the hint could not be created</returns>
-        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect windowBounds, AutomationElement automationElement)
-        {
-            var boundingRectObject = automationElement.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty, true);
-
-            if (boundingRectObject == AutomationElement.NotSupported)
-            {
-                // Not supported
-                return null;
-            }
-
-            var boundingRect = (Rect)boundingRectObject;
-            if (boundingRect.IsEmpty)
-            {
-                // Not currently displaying UI
-                return null;
-            }
-
-            // Convert the bounding rect to logical coords then we're done :-)
-            var logicalRect = boundingRect.PhysicalToLogicalRect(owningWindow);
-            if (!logicalRect.IsEmpty)
-            {
-                var windowCoords = boundingRect.ScreenToWindowCoordinates(windowBounds);
-                return new UiAutomationHint(owningWindow, automationElement, windowCoords);
-            }
-
-            return null;
-        }
-
-        public Bitmap RenderDebugHints(HintSession session)
-        {
-            var render = _screenshotService.RenderWindow(session.OwningWindow);
-
-            using (Graphics graphics = Graphics.FromImage(render))
-            {
-                foreach (var hint in session.Hints)
-                {
-                    graphics.DrawRectangle(new Pen(Color.Red), hint.BoundingRectangle.ToDrawingRectangle());
-                }
-            } 
-
-            return render;
-        }
     }
 }
