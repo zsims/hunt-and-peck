@@ -11,7 +11,7 @@ using System.Windows.Automation;
 
 namespace HuntAndPeck.Engine.Services
 {
-    public class UiAutomationHintProviderService : IHintProviderService
+    internal class UiAutomationHintProviderService : IHintProviderService
     {
         private readonly IUiAutomationHintFactory _hintFactory;
 

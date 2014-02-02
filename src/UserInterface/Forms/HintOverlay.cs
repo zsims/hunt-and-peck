@@ -13,14 +13,9 @@ namespace HuntAndPeck.UserInterface.Forms
     public partial class HintOverlay : Form
     {
         /// <summary>
-        /// The hint session
-        /// </summary>
-        private readonly HintSession _hintSession;
-
-        /// <summary>
         /// The matching hints (if any)
         /// </summary>
-        private IEnumerable<Hint> _matchingHints;
+        private IEnumerable<Hint> _matchingHints = new Hint[0];
 
         /// <summary>
         /// The renderer used for drawing hints
@@ -32,38 +27,41 @@ namespace HuntAndPeck.UserInterface.Forms
         /// </summary>
         private IHintLabelService _hintLabelService;
 
-        public HintOverlay(IHintLabelService hintLabelService, IHintRenderer renderer, HintSession hintSession)
+        public HintOverlay(IHintLabelService hintLabelService, IHintRenderer renderer)
         {
             InitializeComponent();
 
             _hintLabelService = hintLabelService;
-            _hintSession = hintSession;
-            _matchingHints = hintSession.Hints;
             _hintRenderer = renderer;
-
-            // Size to the hint session owning window
-            Top = (int)hintSession.OwningWindowBounds.Top;
-            Left = (int)hintSession.OwningWindowBounds.Left;
-            Width = (int)hintSession.OwningWindowBounds.Width;
-            Height = (int)hintSession.OwningWindowBounds.Height;
         }
+
+        public HintSession HintSession { get; set; }
 
         private void OverlayForm_Load(object sender, EventArgs e)
         {
             Opacity = 0.5;
 
+            // Size to the hint session owning window
+            Top = (int)HintSession.OwningWindowBounds.Top;
+            Left = (int)HintSession.OwningWindowBounds.Left;
+            Width = (int)HintSession.OwningWindowBounds.Width;
+            Height = (int)HintSession.OwningWindowBounds.Height;
+
             // label the hints
-            _hintLabelService.LabelHints(_hintSession.Hints);
+            _hintLabelService.LabelHints(HintSession.Hints);
+
+            // everything is matching initially...
+            _matchingHints = HintSession.Hints;
         }
 
         private void OverlayForm_Paint(object sender, PaintEventArgs e)
         {
-            _hintRenderer.RenderHints(e.Graphics, _matchingHints, _hintSession.Hints);
+            _hintRenderer.RenderHints(e.Graphics, _matchingHints, HintSession.Hints);
         }
 
         private void ProcessInput(string currentInput)
         {
-            _matchingHints = _hintLabelService.FindMatchingHints(currentInput, _hintSession.Hints);
+            _matchingHints = _hintLabelService.FindMatchingHints(currentInput, HintSession.Hints);
 
             if (_matchingHints.Count() == 1)
             {

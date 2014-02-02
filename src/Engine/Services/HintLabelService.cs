@@ -8,7 +8,7 @@ using System.Text;
 
 namespace HuntAndPeck.Engine.Services
 {
-    public class HintLabelService : IHintLabelService
+    internal class HintLabelService : IHintLabelService
     {
         public void LabelHints(IEnumerable<Hint> hints)
         {
