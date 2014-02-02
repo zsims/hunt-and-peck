@@ -40,6 +40,7 @@
             // notifyIcon
             // 
             this.notifyIcon.ContextMenuStrip = this.trayMenu;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Visible = true;
             // 
             // trayMenu

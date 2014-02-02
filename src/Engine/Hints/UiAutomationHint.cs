@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Automation;
 
@@ -9,8 +10,8 @@ namespace HuntnPeck.Engine.Hints
     /// </summary>
     internal class UiAutomationHint : Hint
     {
-        public UiAutomationHint(IntPtr owningWindow, AutomationElement automationElement, Rect boundingRectangle)
-            : base(owningWindow, boundingRectangle)
+        public UiAutomationHint(IntPtr owningWindow, AutomationElement automationElement, Rect boundingRectangle, IEnumerable<HintCapabilityBase> capabilities)
+            : base(owningWindow, boundingRectangle, capabilities)
         {
             AutomationElement = automationElement;
         }

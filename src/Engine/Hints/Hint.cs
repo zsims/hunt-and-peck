@@ -14,14 +14,15 @@ namespace HuntnPeck.Engine.Hints
         /// </summary>
         /// <param name="owningWindow">The owning window</param>
         /// <param name="boundingRectangle">The bounding rectangle of the hint in owner window coordinates</param>
-        public Hint(IntPtr owningWindow, Rect boundingRectangle)
+        /// <param name="capabilities">The capabilities of the hint</param>
+        protected Hint(IntPtr owningWindow, Rect boundingRectangle, IEnumerable<HintCapabilityBase> capabilities)
         {
             OwningWindow = owningWindow;
             BoundingRectangle = boundingRectangle;
 
             Label = string.Empty;
 
-            Capabilities = new HintCapabilityBase[] { };
+            Capabilities = capabilities;
         }
 
         /// <summary>
