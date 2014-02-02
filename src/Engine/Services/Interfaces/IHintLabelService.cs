@@ -1,8 +1,8 @@
 ﻿
-using HuntnPeck.Engine.Hints;
+using HuntAndPeck.Engine.Hints;
 using System.Collections.Generic;
 
-namespace HuntnPeck.Engine.Services.Interfaces
+namespace HuntAndPeck.Engine.Services.Interfaces
 {
     public interface IHintLabelService
     {

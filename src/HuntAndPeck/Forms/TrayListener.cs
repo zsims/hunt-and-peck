@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using HuntnPeck.NativeMethods;
-using HuntnPeck.Engine.NativeMethods;
+using HuntAndPeck.NativeMethods;
+using HuntAndPeck.Engine.NativeMethods;
 
-namespace HuntnPeck.Forms
+namespace HuntAndPeck.UserInterface.Forms
 {
     public partial class TrayListener : Form
     {

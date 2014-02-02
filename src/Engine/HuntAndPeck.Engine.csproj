@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{556F1A03-8752-4C41-BB29-E7FA7FF68CD9}</ProjectGuid>
+    <ProjectGuid>{51A8A6B5-D33F-4593-A360-2442DE435680}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HuntnPeck.NativeMethods</RootNamespace>
-    <AssemblyName>HuntnPeck.NativeMethods</AssemblyName>
+    <RootNamespace>HuntAndPeck.Engine</RootNamespace>
+    <AssemblyName>HuntAndPeck.Engine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,22 +33,37 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
-    <Compile Include="HotKeyEventArgs.cs" />
-    <Compile Include="KeyModifier.cs" />
-    <Compile Include="POINT.cs" />
+    <Compile Include="Extensions\IEnumerableTExtensions.cs" />
+    <Compile Include="Extensions\RectExtensions.cs" />
+    <Compile Include="Hints\Enums.cs" />
+    <Compile Include="Hints\HintCapabilityBase.cs" />
+    <Compile Include="Hints\HintSession.cs" />
+    <Compile Include="Hints\UiAutomationInvokeCapability.cs" />
+    <Compile Include="Services\Interfaces\IUiAutomationHintFactory.cs" />
+    <Compile Include="Services\UiAutomationHintFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RECT.cs" />
-    <Compile Include="User32.cs" />
+    <Compile Include="Hints\Hint.cs" />
+    <Compile Include="Services\HintLabelService.cs" />
+    <Compile Include="Services\Interfaces\IHintLabelService.cs" />
+    <Compile Include="Services\Interfaces\IHintProviderService.cs" />
+    <Compile Include="Services\UiAutomationHintProviderService.cs" />
+    <Compile Include="Hints\UiAutomationHint.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NativeMethods\HuntAndPeck.NativeMethods.csproj">
+      <Project>{556f1a03-8752-4c41-bb29-e7fa7ff68cd9}</Project>
+      <Name>HuntAndPeck.NativeMethods</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

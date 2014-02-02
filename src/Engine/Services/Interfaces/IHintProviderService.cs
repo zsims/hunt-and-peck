@@ -1,8 +1,8 @@
-﻿using HuntnPeck.Engine.Hints;
+﻿using HuntAndPeck.Engine.Hints;
 using System;
 using System.Collections.Generic;
 
-namespace HuntnPeck.Engine.Services.Interfaces
+namespace HuntAndPeck.Engine.Services.Interfaces
 {
     /// <summary>
     /// Provides hints for the entire desktop or a given window handle

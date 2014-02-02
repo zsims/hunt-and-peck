@@ -1,12 +1,12 @@
-﻿using HuntnPeck.Engine.Extensions;
-using HuntnPeck.Engine.Hints;
-using HuntnPeck.Engine.Services.Interfaces;
+﻿using HuntAndPeck.Engine.Extensions;
+using HuntAndPeck.Engine.Hints;
+using HuntAndPeck.Engine.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HuntnPeck.Engine.Services
+namespace HuntAndPeck.Engine.Services
 {
     public class HintLabelService : IHintLabelService
     {

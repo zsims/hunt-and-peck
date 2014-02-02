@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HuntnPeck.Engine.Properties {
+namespace HuntAndPeck.UserInterface.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

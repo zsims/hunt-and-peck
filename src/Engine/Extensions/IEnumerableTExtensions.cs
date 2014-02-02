@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace HuntnPeck.Engine.Extensions
+namespace HuntAndPeck.Engine.Extensions
 {
     public static class IEnumerableTExtensions
     {

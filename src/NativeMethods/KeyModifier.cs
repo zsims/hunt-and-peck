@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HuntnPeck.NativeMethods
+namespace HuntAndPeck.NativeMethods
 {
     [Flags]
     public enum KeyModifier

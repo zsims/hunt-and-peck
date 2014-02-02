@@ -7,8 +7,8 @@
     <ProjectGuid>{CDEFB2EF-42DD-446A-A22A-092133E7B4BC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HuntnPeck.Engine</RootNamespace>
-    <AssemblyName>HuntnPeck</AssemblyName>
+    <RootNamespace>HuntAndPeck.UserInterface</RootNamespace>
+    <AssemblyName>HuntAndPeck</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -101,17 +101,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{51a8a6b5-d33f-4593-a360-2442de435680}</Project>
-      <Name>Engine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NativeMethods\NativeMethods.csproj">
-      <Project>{556f1a03-8752-4c41-bb29-e7fa7ff68cd9}</Project>
-      <Name>NativeMethods</Name>
-    </ProjectReference>
+    <None Include="originalbird.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="originalbird.ico" />
+    <ProjectReference Include="..\Engine\HuntAndPeck.Engine.csproj">
+      <Project>{51a8a6b5-d33f-4593-a360-2442de435680}</Project>
+      <Name>HuntAndPeck.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NativeMethods\HuntAndPeck.NativeMethods.csproj">
+      <Project>{556f1a03-8752-4c41-bb29-e7fa7ff68cd9}</Project>
+      <Name>HuntAndPeck.NativeMethods</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

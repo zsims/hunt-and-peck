@@ -1,17 +1,17 @@
-﻿using HuntnPeck.Engine.Renderer;
-using HuntnPeck.Engine.Services;
-using HuntnPeck.Forms;
+﻿using HuntAndPeck.UserInterface.Renderer;
+using HuntAndPeck.Engine.Services;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using HuntAndPeck.UserInterface.Forms;
 
-namespace HuntnPeck
+namespace HuntAndPeck.UserInterface
 {
-    public class HuntnPeckApplicationContext : ApplicationContext
+    public class HuntAndPeckApplicationContext : ApplicationContext
     {
         private readonly HintRenderer _hintRenderer;
 
-        public HuntnPeckApplicationContext()
+        public HuntAndPeckApplicationContext()
         {
             var tray = new TrayListener();
             tray.HotKey = new Tuple<NativeMethods.KeyModifier, Keys>(NativeMethods.KeyModifier.Alt, Keys.OemSemicolon);

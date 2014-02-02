@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HuntnPeck.Engine.Hints
+namespace HuntAndPeck.Engine.Hints
 {
     public enum HintCapabilityIdentifer
     {

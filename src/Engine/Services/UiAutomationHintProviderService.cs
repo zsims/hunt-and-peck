@@ -1,7 +1,7 @@
-﻿using HuntnPeck.Engine.Extensions;
-using HuntnPeck.Engine.Hints;
-using HuntnPeck.Engine.NativeMethods;
-using HuntnPeck.Engine.Services.Interfaces;
+﻿using HuntAndPeck.Engine.Extensions;
+using HuntAndPeck.Engine.Hints;
+using HuntAndPeck.Engine.NativeMethods;
+using HuntAndPeck.Engine.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 
-namespace HuntnPeck.Engine.Services
+namespace HuntAndPeck.Engine.Services
 {
     public class UiAutomationHintProviderService : IHintProviderService
     {

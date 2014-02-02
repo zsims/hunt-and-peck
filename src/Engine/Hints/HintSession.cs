@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace HuntnPeck.Engine.Hints
+namespace HuntAndPeck.Engine.Hints
 {
     public class HintSession
     {

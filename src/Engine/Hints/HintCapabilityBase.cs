@@ -1,5 +1,5 @@
 ﻿
-namespace HuntnPeck.Engine.Hints
+namespace HuntAndPeck.Engine.Hints
 {
     /// <summary>
     /// Represents the capabilities of a given hint

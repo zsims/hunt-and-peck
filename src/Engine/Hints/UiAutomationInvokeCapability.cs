@@ -1,6 +1,6 @@
 ﻿using System.Windows.Automation;
 
-namespace HuntnPeck.Engine.Hints
+namespace HuntAndPeck.Engine.Hints
 {
     internal class UiAutomationInvokeCapability : HintCapabilityBase
     {

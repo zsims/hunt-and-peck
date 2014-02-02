@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace HuntnPeck.Engine.NativeMethods
+namespace HuntAndPeck.Engine.NativeMethods
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT

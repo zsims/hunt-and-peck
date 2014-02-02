@@ -1,4 +1,4 @@
-﻿using HuntnPeck.Engine.Hints;
+﻿using HuntAndPeck.Engine.Hints;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HuntnPeck.Engine.Renderer
+namespace HuntAndPeck.UserInterface.Renderer
 {
     /// <summary>
     /// Renders hints 

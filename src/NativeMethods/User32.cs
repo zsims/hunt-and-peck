@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace HuntnPeck.Engine.NativeMethods
+namespace HuntAndPeck.Engine.NativeMethods
 {
     public class User32
     {

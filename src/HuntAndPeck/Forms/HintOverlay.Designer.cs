@@ -1,4 +1,4 @@
-﻿namespace HuntnPeck.Forms
+﻿namespace HuntAndPeck.UserInterface.Forms
 {
 	partial class HintOverlay
 	{
