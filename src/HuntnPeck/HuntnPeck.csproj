@@ -67,6 +67,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer\HintRenderer.cs" />
+    <Compile Include="Renderer\IHintRenderer.cs" />
     <EmbeddedResource Include="Forms\HintOverlay.resx">
       <DependentUpon>HintOverlay.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,11 +1,10 @@
-﻿using HuntnPeck.Engine.Hints;
+﻿using HuntnPeck.Engine.Extensions;
+using HuntnPeck.Engine.Hints;
 using HuntnPeck.Engine.Services.Interfaces;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Automation;
-using HuntnPeck.Engine.Extensions;
-using System.Collections.Generic;
 
 namespace HuntnPeck.Engine.Services
 {
@@ -41,11 +40,9 @@ namespace HuntnPeck.Engine.Services
             if (!logicalRect.IsEmpty)
             {
                 var windowCoords = boundingRect.ScreenToWindowCoordinates(windowBounds);
-
-                // Find any compatible hint capabilities, if it has any then we're done.
                 var capabilities = CreateHintCapabilities(automationElement);
 
-                return new UiAutomationHint(owningWindow, automationElement, windowCoords);
+                return new UiAutomationHint(owningWindow, automationElement, windowCoords, capabilities);
             }
 
             return null;
@@ -56,20 +53,14 @@ namespace HuntnPeck.Engine.Services
             var patterns = automationElement.GetSupportedPatterns();
             var capabilities = new List<HintCapabilityBase>();
 
-            foreach (object pattern in patterns)
+            // Invoke
             {
-                HintCapabilityBase capability = null;
-
-                // For now we only support invoking
-                if (pattern is InvokePattern)
+                object invokePattern = null;
+                if(automationElement.TryGetCurrentPattern(InvokePattern.Pattern, out invokePattern))
                 {
-                    capability = new UiAutomationInvokeCapability(pattern as InvokePattern);
+                    capabilities.Add(new UiAutomationInvokeCapability(invokePattern as InvokePattern));
                 }
 
-                if (capability != null)
-                {
-                    capabilities.Add(capability);
-                }
             }
 
             return capabilities;

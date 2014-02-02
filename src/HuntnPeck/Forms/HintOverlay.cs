@@ -25,21 +25,21 @@ namespace HuntnPeck.Forms
         /// <summary>
         /// The renderer used for drawing hints
         /// </summary>
-        private readonly HintRenderer _hintRenderer;
+        private readonly IHintRenderer _hintRenderer;
 
         /// <summary>
         /// The service for labeling/matching hints
         /// </summary>
         private IHintLabelService _hintLabelService;
 
-        public HintOverlay(IHintLabelService hintLabelService, HintSession hintSession)
+        public HintOverlay(IHintLabelService hintLabelService, IHintRenderer renderer, HintSession hintSession)
         {
             InitializeComponent();
 
             _hintLabelService = hintLabelService;
             _hintSession = hintSession;
             _matchingHints = hintSession.Hints;
-            _hintRenderer = new HintRenderer();
+            _hintRenderer = renderer;
 
             // Size to the hint session owning window
             Top = (int)hintSession.OwningWindowBounds.Top;
@@ -67,15 +67,23 @@ namespace HuntnPeck.Forms
 
             if (_matchingHints.Count() == 1)
             {
-                SelectedHint = _matchingHints.First();
-                DialogResult = DialogResult.OK;
-                Close();
+                HintMatched(_matchingHints.First());
             }
             else
             {
                 // repaint the hints
                 Invalidate();
             }
+        }
+
+        private void HintMatched(Hint selectedHint)
+        {
+            // Closing, so we don't need to know about focus loss
+            Deactivate -= HintOverlay_Deactivate;
+
+            SelectedHint = selectedHint;
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void textBoxHintInput_TextChanged(object sender, EventArgs e)

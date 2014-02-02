@@ -12,15 +12,13 @@ namespace HuntnPeck.Engine.Services
     {
         public void LabelHints(IEnumerable<Hint> hints)
         {
-            var count = hints.Count();
-            //var labels = GetHintStrings(hints.Count());
+            var labels = GetHintStrings(hints.Count());
 
-            for(int i = 0; i < count; ++i)
+            var i = 0;
+            foreach (var hint in hints)
             {
-                var label = i.ToString();//labels.ElementAt(i);
-                var hint = hints.ElementAt(i);
-
-                hint.Label = label;
+                hint.Label = labels[i];
+                ++i;
             }
         }
 
@@ -30,7 +28,7 @@ namespace HuntnPeck.Engine.Services
         /// <remarks>Adapted from vimium to give a consistent experience, see https://github.com/philc/vimium/blob/master/content_scripts/link_hints.coffee </remarks>
         /// <param name="hintCount">The number of hints</param>
         /// <returns>A list of hint strings</returns>
-        private IEnumerable<string> GetHintStrings(int hintCount)
+        private List<string> GetHintStrings(int hintCount)
         {
             var hintCharacters = new char[] { 's', 'a', 'd', 'f', 'j', 'k', 'l', 'e', 'w', 'c', 'm', 'p', 'g', 'h' };
             var digitsNeeded = (int)Math.Ceiling(Math.Log(hintCount) / Math.Log(hintCharacters.Length));
@@ -54,7 +52,8 @@ namespace HuntnPeck.Engine.Services
                 hintStrings.Add(NumberToHintString(i, hintCharacters, digitsNeeded));
             }
 
-            return hintStrings.Shuffle();
+            // Note that shuffle is lazy evaluated. Sigh.
+            return hintStrings.Shuffle().ToList();
         }
 
         /// <summary>
