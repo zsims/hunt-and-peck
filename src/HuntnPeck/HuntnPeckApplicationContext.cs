@@ -50,7 +50,7 @@ namespace HuntnPeck
                 _hintRenderer.Dispose();
             }
 
-            base.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

@@ -71,6 +71,9 @@
     <EmbeddedResource Include="Forms\HintOverlay.resx">
       <DependentUpon>HintOverlay.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\TrayListener.resx">
       <DependentUpon>TrayListener.cs</DependentUpon>
     </EmbeddedResource>

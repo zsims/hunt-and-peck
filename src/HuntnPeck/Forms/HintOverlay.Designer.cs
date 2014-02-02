@@ -33,7 +33,9 @@
             // 
             // textBoxHintInput
             // 
-            this.textBoxHintInput.Location = new System.Drawing.Point(54, 56);
+            this.textBoxHintInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxHintInput.Location = new System.Drawing.Point(89, 192);
             this.textBoxHintInput.Name = "textBoxHintInput";
             this.textBoxHintInput.Size = new System.Drawing.Size(100, 20);
             this.textBoxHintInput.TabIndex = 0;

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace HuntnPeck.Engine.Forms
+namespace HuntnPeck.Forms
 {
     public partial class OptionsForm : Form
     {
@@ -8,5 +8,6 @@ namespace HuntnPeck.Engine.Forms
         {
             InitializeComponent();
         }
+
     }
 }

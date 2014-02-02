@@ -131,10 +131,12 @@ namespace HuntnPeck.Engine.Renderer
             _hintBoxBrush.Dispose();
             _hintBoundingBoxPen.Dispose();
 
-            foreach (var kv in _hintUnderlines)
+            foreach (var pen in _hintUnderlines.Values)
             {
-                kv.Value.Dispose();
+                pen.Dispose();
             }
+
+            GC.SuppressFinalize(this);
         }
     }
 }

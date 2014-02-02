@@ -96,7 +96,10 @@ namespace HuntnPeck.Forms
 
         private void menuItemOptions_Click(object sender, System.EventArgs e)
         {
-            // TODO
+            using (var optionsForm = new OptionsForm())
+            {
+                optionsForm.ShowDialog();
+            }
         }
 
         private void menuItemExit_Click(object sender, System.EventArgs e)
