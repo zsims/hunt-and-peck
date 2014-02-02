@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuntAndPeck.UserInterface", "HuntAndPeck\HuntAndPeck.UserInterface.csproj", "{CDEFB2EF-42DD-446A-A22A-092133E7B4BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuntAndPeck.UserInterface", "UserInterface\HuntAndPeck.UserInterface.csproj", "{CDEFB2EF-42DD-446A-A22A-092133E7B4BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuntAndPeck.Engine", "Engine\HuntAndPeck.Engine.csproj", "{51A8A6B5-D33F-4593-A360-2442DE435680}"
 EndProject

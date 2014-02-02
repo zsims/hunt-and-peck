@@ -7,3 +7,5 @@ src/Engine/bin/
 src/NativeMethods/bin/
 src/HuntAndPeck/bin/
 src/HuntAndPeck/obj/
+src/UserInterface/obj/
+src/UserInterface/bin/
