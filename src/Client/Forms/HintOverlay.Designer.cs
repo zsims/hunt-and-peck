@@ -1,4 +1,4 @@
-﻿namespace HuntAndPeck.UserInterface.Forms
+﻿namespace hap.Client.Forms
 {
 	partial class HintOverlay
 	{
@@ -54,7 +54,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "HuntAndPeck";
+            this.Text = "hap";
             this.TopMost = true;
             this.Deactivate += new System.EventHandler(this.HintOverlay_Deactivate);
             this.Load += new System.EventHandler(this.OverlayForm_Load);

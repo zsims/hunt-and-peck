@@ -1,6 +1,6 @@
-﻿using HuntAndPeck.Engine.Hints;
-using HuntAndPeck.Engine.Services.Interfaces;
-using HuntAndPeck.UserInterface.Renderer;
+﻿using hap.Engine.Hints;
+using hap.Engine.Services.Interfaces;
+using hap.Client.Renderer;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +8,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace HuntAndPeck.UserInterface.Forms
+namespace hap.Client.Forms
 {
     public partial class HintOverlay : Form
     {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace HuntAndPeck.Engine.NativeMethods
+namespace hap.Engine.NativeMethods
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct POINT

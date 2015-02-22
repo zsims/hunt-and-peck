@@ -1,9 +1,9 @@
-﻿using HuntAndPeck.Engine.Hints;
+﻿using hap.Engine.Hints;
 using System;
 using System.Windows;
 using System.Windows.Automation;
 
-namespace HuntAndPeck.Engine.Services.Interfaces
+namespace hap.Engine.Services.Interfaces
 {
     internal interface IUiAutomationHintFactory
     {

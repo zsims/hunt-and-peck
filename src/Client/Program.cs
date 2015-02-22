@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace HuntAndPeck.UserInterface
+namespace hap.Client
 {
     static class Program
     {
@@ -13,7 +13,7 @@ namespace HuntAndPeck.UserInterface
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HuntAndPeckApplicationContext());
+            Application.Run(new hapApplicationContext());
         }
     }
 }

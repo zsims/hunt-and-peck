@@ -1,9 +1,9 @@
-﻿using HuntAndPeck.Engine.NativeMethods;
+﻿using hap.Engine.NativeMethods;
 using System;
 using System.Drawing;
 using System.Windows;
 
-namespace HuntAndPeck.Engine.Extensions
+namespace hap.Engine.Extensions
 {
     public static class RectExtensions
     {

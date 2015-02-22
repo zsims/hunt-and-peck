@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HuntAndPeck.NativeMethods
+namespace hap.NativeMethods
 {
     public static class Constants
     {

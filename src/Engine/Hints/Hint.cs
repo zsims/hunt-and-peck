@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace HuntAndPeck.Engine.Hints
+namespace hap.Engine.Hints
 {
     /// <summary>
     /// Represents a hint that has 1 or more capabilities

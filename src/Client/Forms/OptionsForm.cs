@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace HuntAndPeck.UserInterface.Forms
+namespace hap.Client.Forms
 {
     public partial class OptionsForm : Form
     {

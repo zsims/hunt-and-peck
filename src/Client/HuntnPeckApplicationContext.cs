@@ -1,20 +1,20 @@
-﻿using HuntAndPeck.UserInterface.Renderer;
-using HuntAndPeck.Engine.Services;
+﻿using hap.Client.Renderer;
+using hap.Engine.Services;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using HuntAndPeck.UserInterface.Forms;
+using hap.Client.Forms;
 using Autofac;
-using HuntAndPeck.Engine;
-using HuntAndPeck.Engine.Services.Interfaces;
+using hap.Engine;
+using hap.Engine.Services.Interfaces;
 
-namespace HuntAndPeck.UserInterface
+namespace hap.Client
 {
-    public class HuntAndPeckApplicationContext : ApplicationContext
+    public class hapApplicationContext : ApplicationContext
     {
         private IContainer _container;
 
-        public HuntAndPeckApplicationContext()
+        public hapApplicationContext()
         {
             Bootstrap();
         }

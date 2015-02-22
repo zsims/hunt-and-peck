@@ -1,8 +1,8 @@
 ﻿using Autofac;
-using HuntAndPeck.Engine.Services;
-using HuntAndPeck.Engine.Services.Interfaces;
+using hap.Engine.Services;
+using hap.Engine.Services.Interfaces;
 
-namespace HuntAndPeck.Engine
+namespace hap.Engine
 {
     public class EngineAutofacModule : Module
     {

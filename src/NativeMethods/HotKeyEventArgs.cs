@@ -1,8 +1,8 @@
-﻿using HuntAndPeck.NativeMethods;
+﻿using hap.NativeMethods;
 using System;
 using System.Windows.Forms;
 
-namespace HuntAndPeck.NativeMethods
+namespace hap.NativeMethods
 {
     public class HotKeyEventArgs : EventArgs
     {

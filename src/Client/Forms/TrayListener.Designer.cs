@@ -1,4 +1,4 @@
-﻿namespace HuntAndPeck.UserInterface.Forms
+﻿namespace hap.Client.Forms
 {
 	partial class TrayListener
 	{

@@ -1,12 +1,12 @@
-﻿using HuntAndPeck.Engine.Extensions;
-using HuntAndPeck.Engine.Hints;
-using HuntAndPeck.Engine.Services.Interfaces;
+﻿using hap.Engine.Extensions;
+using hap.Engine.Hints;
+using hap.Engine.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Automation;
 
-namespace HuntAndPeck.Engine.Services
+namespace hap.Engine.Services
 {
     internal class UiAutomationHintFactory : IUiAutomationHintFactory
     {

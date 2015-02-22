@@ -7,8 +7,8 @@
     <ProjectGuid>{51A8A6B5-D33F-4593-A360-2442DE435680}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HuntAndPeck.Engine</RootNamespace>
-    <AssemblyName>HuntAndPeck.Engine</AssemblyName>
+    <RootNamespace>hap.Engine</RootNamespace>
+    <AssemblyName>hap.Engine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -66,9 +66,9 @@
     <Compile Include="Hints\UiAutomationHint.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NativeMethods\HuntAndPeck.NativeMethods.csproj">
+    <ProjectReference Include="..\NativeMethods\NativeMethods.csproj">
       <Project>{556f1a03-8752-4c41-bb29-e7fa7ff68cd9}</Project>
-      <Name>HuntAndPeck.NativeMethods</Name>
+      <Name>NativeMethods</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

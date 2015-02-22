@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Automation;
 
-namespace HuntAndPeck.Engine.Hints
+namespace hap.Engine.Hints
 {
     /// <summary>
     /// Represents a Windows UI Automation based hint
