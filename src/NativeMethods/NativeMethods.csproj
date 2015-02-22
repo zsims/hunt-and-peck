@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="HotKeyEventArgs.cs" />
+    <Compile Include="Kernel32.cs" />
     <Compile Include="KeyModifier.cs" />
     <Compile Include="POINT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

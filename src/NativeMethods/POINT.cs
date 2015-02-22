@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace hap.Engine.NativeMethods
+namespace hap.NativeMethods
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct POINT

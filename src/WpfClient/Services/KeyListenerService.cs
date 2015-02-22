@@ -1,5 +1,4 @@
-﻿using hap.Engine.NativeMethods;
-using hap.NativeMethods;
+﻿using hap.NativeMethods;
 using System;
 using System.Windows.Forms;
 
