@@ -7,22 +7,19 @@ namespace hap.Engine.Hints
     /// <summary>
     /// Represents a hint that has 1 or more capabilities
     /// </summary>
-    public class Hint
+    public abstract class Hint
     {
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="owningWindow">The owning window</param>
         /// <param name="boundingRectangle">The bounding rectangle of the hint in owner window coordinates</param>
-        /// <param name="capabilities">The capabilities of the hint</param>
-        protected Hint(IntPtr owningWindow, Rect boundingRectangle, IEnumerable<HintCapabilityBase> capabilities)
+        protected Hint(IntPtr owningWindow, Rect boundingRectangle)
         {
             OwningWindow = owningWindow;
             BoundingRectangle = boundingRectangle;
 
             Label = string.Empty;
-
-            Capabilities = capabilities;
         }
 
         /// <summary>
@@ -41,8 +38,8 @@ namespace hap.Engine.Hints
         public IntPtr OwningWindow { get; private set; }
 
         /// <summary>
-        /// The hint capabilities
+        /// Invokes the hint
         /// </summary>
-        public IEnumerable<HintCapabilityBase> Capabilities { get; private set; }
+        public abstract void Invoke();
     }
 }

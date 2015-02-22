@@ -1,0 +1,40 @@
+﻿<local:HintWindow x:Class="hap.WpfClient.Views.OverlayView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:hap.WpfClient.Views"
+        LogicalScreenBounds="{Binding Bounds}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True"
+        FocusManager.FocusedElement="{Binding ElementName=MatchStringControl}"
+        LostKeyboardFocus="HintWindow_LostKeyboardFocus">
+    <local:HintWindow.Background>
+        <SolidColorBrush Color="Transparent" />
+    </local:HintWindow.Background>
+    <Grid>
+        <TextBox x:Name="MatchStringControl" Text="{Binding MatchString, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" VerticalAlignment="Bottom" Background="Black" Foreground="White" />
+        <ItemsControl ItemsSource="{Binding Hints}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Top" Value="{Binding BoundingRectangle.Top}" />
+                    <Setter Property="Canvas.Left" Value="{Binding BoundingRectangle.Left}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Rectangle Width="{Binding BoundingRectangle.Width}" Height="{Binding BoundingRectangle.Height}" Stroke="Red" StrokeDashArray="1 2" />
+                        <Viewbox>
+                            <TextBlock Text="{Binding Label}" FontFamily="Courier New"/>
+                        </Viewbox>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        </Grid>
+</local:HintWindow>
+

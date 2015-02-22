@@ -51,10 +51,7 @@
     <Compile Include="EngineAutofacModule.cs" />
     <Compile Include="Extensions\IEnumerableTExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
-    <Compile Include="Hints\Enums.cs" />
-    <Compile Include="Hints\HintCapabilityBase.cs" />
     <Compile Include="Hints\HintSession.cs" />
-    <Compile Include="Hints\UiAutomationInvokeCapability.cs" />
     <Compile Include="Services\Interfaces\IUiAutomationHintFactory.cs" />
     <Compile Include="Services\UiAutomationHintFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

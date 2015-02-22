@@ -40,30 +40,27 @@ namespace hap.Engine.Services
             if (!logicalRect.IsEmpty)
             {
                 var windowCoords = boundingRect.ScreenToWindowCoordinates(windowBounds);
-                var capabilities = CreateHintCapabilities(automationElement);
-
-                return new UiAutomationHint(owningWindow, automationElement, windowCoords, capabilities);
+                InvokePattern pattern;
+                if (TryGetInvokePattern(automationElement, out pattern))
+                {
+                    return new UiAutomationHint(owningWindow, automationElement, pattern, windowCoords);
+                }
             }
 
             return null;
         }
 
-        private IEnumerable<HintCapabilityBase> CreateHintCapabilities(AutomationElement automationElement)
+        private bool TryGetInvokePattern(AutomationElement automationElement, out InvokePattern pattern)
         {
-            var patterns = automationElement.GetSupportedPatterns();
-            var capabilities = new List<HintCapabilityBase>();
-
-            // Invoke
+            object invokePattern = null;
+            if(automationElement.TryGetCurrentPattern(InvokePattern.Pattern, out invokePattern))
             {
-                object invokePattern = null;
-                if(automationElement.TryGetCurrentPattern(InvokePattern.Pattern, out invokePattern))
-                {
-                    capabilities.Add(new UiAutomationInvokeCapability(invokePattern as InvokePattern));
-                }
-
+                pattern = invokePattern as InvokePattern;
+                return pattern != null;
             }
 
-            return capabilities;
+            pattern = null;
+            return false;
         }
     }
 }
