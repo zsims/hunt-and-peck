@@ -27,9 +27,17 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <Rectangle Width="{Binding BoundingRectangle.Width}" Height="{Binding BoundingRectangle.Height}" Stroke="Red" StrokeDashArray="1 2" />
-                        <Viewbox>
-                            <TextBlock Text="{Binding Label}" FontFamily="Courier New"/>
+                        <Rectangle Width="{Binding BoundingRectangle.Width}" Height="{Binding BoundingRectangle.Height}" Stroke="Red" StrokeDashArray="1 2">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="Yellow" Opacity="0.2" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Viewbox StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1 1 0 0">
+                            <TextBlock Text="{Binding Label}" FontFamily="Courier New" FontWeight="ExtraBold" FontSize="16">
+                                <TextBlock.Background>
+                                    <SolidColorBrush Color="Yellow" />
+                                </TextBlock.Background>
+                            </TextBlock>
                         </Viewbox>
                     </Grid>
                 </DataTemplate>
