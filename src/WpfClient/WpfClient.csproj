@@ -80,6 +80,7 @@
     <Compile Include="Services\KeyListenerService.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ViewModels\HintViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\OverlayViewModel.cs" />

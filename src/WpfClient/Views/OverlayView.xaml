@@ -5,6 +5,18 @@
         LogicalScreenBounds="{Binding Bounds}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=MatchStringControl}"
         LostKeyboardFocus="HintWindow_LostKeyboardFocus">
+    
+    <local:HintWindow.Resources>
+        <Style x:Key="HintStyle" TargetType="TextBlock">
+            <Setter Property="Background" Value="Yellow" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Active}" Value="false">
+                    <Setter Property="Background" Value="LightYellow" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </local:HintWindow.Resources>
+    
     <local:HintWindow.Background>
         <SolidColorBrush Color="Transparent" />
     </local:HintWindow.Background>
@@ -19,24 +31,21 @@
 
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Canvas.Top" Value="{Binding BoundingRectangle.Top}" />
-                    <Setter Property="Canvas.Left" Value="{Binding BoundingRectangle.Left}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Hint.BoundingRectangle.Top}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Hint.BoundingRectangle.Left}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <Rectangle Width="{Binding BoundingRectangle.Width}" Height="{Binding BoundingRectangle.Height}" Stroke="Red" StrokeDashArray="1 2">
+                        <Rectangle Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}" Stroke="Red" StrokeDashArray="1 2">
                             <Rectangle.Fill>
                                 <SolidColorBrush Color="Yellow" Opacity="0.2" />
                             </Rectangle.Fill>
                         </Rectangle>
                         <Viewbox StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1 1 0 0">
-                            <TextBlock Text="{Binding Label}" FontFamily="Courier New" FontWeight="ExtraBold" FontSize="16">
-                                <TextBlock.Background>
-                                    <SolidColorBrush Color="Yellow" />
-                                </TextBlock.Background>
+                            <TextBlock Text="{Binding Label}" FontFamily="Courier New" FontWeight="ExtraBold" FontSize="16" Style="{StaticResource HintStyle}">
                             </TextBlock>
                         </Viewbox>
                     </Grid>

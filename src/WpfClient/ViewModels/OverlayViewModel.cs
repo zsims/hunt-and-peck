@@ -11,7 +11,7 @@ namespace hap.WpfClient.ViewModels
     {
         private readonly HintSession _session;
         private Rect _bounds;
-        private ObservableCollection<Hint> _hints;
+        private ObservableCollection<HintViewModel> _hints = new ObservableCollection<HintViewModel>();
         private readonly IHintLabelService _hintLabelService;
 
         public OverlayViewModel(
@@ -22,12 +22,16 @@ namespace hap.WpfClient.ViewModels
             _bounds = session.OwningWindowBounds;
             _hintLabelService = hintLabelService;
 
-            _hints = new ObservableCollection<Hint>();
-            foreach(var hint in session.Hints)
+            var labels = hintLabelService.GetHintStrings(_session.Hints.Count());
+            for (int i = 0; i < labels.Count; ++i)
             {
-                _hints.Add(hint);
+                var hint = _session.Hints[i];
+                _hints.Add(new HintViewModel(hint)
+                {
+                    Label = labels[i],
+                    Active = false
+                });
             }
-            hintLabelService.LabelHints(_hints);
         }
 
         /// <summary>
@@ -46,7 +50,7 @@ namespace hap.WpfClient.ViewModels
             }
         }
 
-        public ObservableCollection<Hint> Hints
+        public ObservableCollection<HintViewModel> Hints
         {
             get
             {
@@ -63,11 +67,14 @@ namespace hap.WpfClient.ViewModels
         {
             set
             {
-                var matching = _hintLabelService.FindMatchingHints(value, _session.Hints);
+                Hints.Apply(x => x.Active = false);
+
+                var matching = Hints.Where(x => x.Label.StartsWith(value)).ToArray();
+                matching.Apply(x => x.Active = true);
 
                 if (matching.Count() == 1)
                 {
-                    matching.First().Invoke();
+                    matching.First().Hint.Invoke();
                     TryClose();
                 }
             }

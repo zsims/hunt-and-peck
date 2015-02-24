@@ -9,7 +9,7 @@ namespace hap.Engine.Hints
         /// <summary>
         /// The hints
         /// </summary>
-        public IEnumerable<Hint> Hints { get; set; }
+        public IList<Hint> Hints { get; set; }
 
         /// <summary>
         /// Owning window for the hints

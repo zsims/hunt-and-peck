@@ -17,14 +17,7 @@ namespace hap.Engine.Hints
         {
             OwningWindow = owningWindow;
             BoundingRectangle = boundingRectangle;
-
-            Label = string.Empty;
         }
-
-        /// <summary>
-        /// The label of the hint
-        /// </summary>
-        public string Label { get; set; }
 
         /// <summary>
         /// The bounding rectangle for the hint in Window coordinates for the owning window

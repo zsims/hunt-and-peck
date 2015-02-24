@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows.Input;
+using Caliburn.Micro;
 using hap.NativeMethods;
 using System;
 using System.Threading;
@@ -41,13 +42,12 @@ namespace hap.WpfClient.Views
         public OverlayView()
         {
             InitializeComponent();
-
-            // We always want this on top. SetForegroundWindow has a few conditions:
-            // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
         }
 
         protected override void OnActivated(EventArgs e)
         {
+            // We always want this on top. SetForegroundWindow has a few conditions:
+            // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
             ForceForeground();
             base.OnActivated(e);
         }

@@ -1,5 +1,4 @@
 ﻿using hap.Engine.Extensions;
-using hap.Engine.Hints;
 using hap.Engine.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,25 +9,13 @@ namespace hap.Engine.Services
 {
     internal class HintLabelService : IHintLabelService
     {
-        public void LabelHints(IEnumerable<Hint> hints)
-        {
-            var labels = GetHintStrings(hints.Count());
-
-            var i = 0;
-            foreach (var hint in hints)
-            {
-                hint.Label = labels[i];
-                ++i;
-            }
-        }
-
         /// <summary>
         /// Gets available hint strings
         /// </summary>
         /// <remarks>Adapted from vimium to give a consistent experience, see https://github.com/philc/vimium/blob/master/content_scripts/link_hints.coffee </remarks>
         /// <param name="hintCount">The number of hints</param>
         /// <returns>A list of hint strings</returns>
-        private List<string> GetHintStrings(int hintCount)
+        public IList<string> GetHintStrings(int hintCount)
         {
             var hintCharacters = new[] { 's', 'a', 'd', 'f', 'j', 'k', 'l', 'e', 'w', 'c', 'm', 'p', 'g', 'h' };
             var digitsNeeded = (int)Math.Ceiling(Math.Log(hintCount) / Math.Log(hintCharacters.Length));
@@ -87,16 +74,6 @@ namespace hap.Engine.Services
             }
 
             return hintString.ToString();
-        }
-
-        public IEnumerable<Hint> FindMatchingHints(string partialLabel, IEnumerable<Hint> hints)
-        {
-            if (string.IsNullOrWhiteSpace(partialLabel))
-            {
-                return hints;
-            }
-
-            return hints.Where(x => x.Label.StartsWith(partialLabel));
         }
     }
 }
