@@ -11,6 +11,7 @@ namespace hap.Engine.Extensions
         /// Converts physical screen to logical screen coordinates given a rectangle
         /// </summary>
         /// <param name="source">The source rectangle</param>
+        /// <param name="hWnd">The window handle to use for conversion</param>
         /// <returns>The rectangle in logical coordinates, else an empty rectangle</returns>
         public static Rect PhysicalToLogicalRect(this Rect source, IntPtr hWnd)
         {
@@ -33,7 +34,7 @@ namespace hap.Engine.Extensions
         /// <returns></returns>
         public static Rect ScreenToWindowCoordinates(this Rect source, Rect windowRect)
         {
-            Rect result = new Rect(source.TopLeft, source.BottomRight);
+            var result = new Rect(source.TopLeft, source.BottomRight);
             result.X -= windowRect.X;
             result.Y -= windowRect.Y;
 

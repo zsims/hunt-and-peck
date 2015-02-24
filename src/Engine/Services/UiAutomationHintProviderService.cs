@@ -1,11 +1,8 @@
-﻿using hap.Engine.Extensions;
-using hap.Engine.Hints;
+﻿using hap.Engine.Hints;
 using hap.Engine.Services.Interfaces;
 using hap.NativeMethods;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 

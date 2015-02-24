@@ -9,7 +9,7 @@ namespace hap.WpfClient.ViewModels
 {
     internal class OverlayViewModel : Screen
     {
-        private HintSession _session;
+        private readonly HintSession _session;
         private Rect _bounds;
         private ObservableCollection<Hint> _hints;
         private readonly IHintLabelService _hintLabelService;

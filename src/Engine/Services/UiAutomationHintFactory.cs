@@ -2,7 +2,6 @@
 using hap.Engine.Hints;
 using hap.Engine.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Automation;
 
@@ -52,7 +51,7 @@ namespace hap.Engine.Services
 
         private bool TryGetInvokePattern(AutomationElement automationElement, out InvokePattern pattern)
         {
-            object invokePattern = null;
+            object invokePattern;
             if(automationElement.TryGetCurrentPattern(InvokePattern.Pattern, out invokePattern))
             {
                 pattern = invokePattern as InvokePattern;

@@ -1,6 +1,5 @@
 ﻿using hap.Engine.Hints;
 using System;
-using System.Collections.Generic;
 
 namespace hap.Engine.Services.Interfaces
 {

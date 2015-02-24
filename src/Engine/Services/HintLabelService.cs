@@ -30,7 +30,7 @@ namespace hap.Engine.Services
         /// <returns>A list of hint strings</returns>
         private List<string> GetHintStrings(int hintCount)
         {
-            var hintCharacters = new char[] { 's', 'a', 'd', 'f', 'j', 'k', 'l', 'e', 'w', 'c', 'm', 'p', 'g', 'h' };
+            var hintCharacters = new[] { 's', 'a', 'd', 'f', 'j', 'k', 'l', 'e', 'w', 'c', 'm', 'p', 'g', 'h' };
             var digitsNeeded = (int)Math.Ceiling(Math.Log(hintCount) / Math.Log(hintCharacters.Length));
 
             var shortHintCount = Math.Floor((Math.Pow(hintCharacters.Length, digitsNeeded) - hintCount) / hintCharacters.Length);
@@ -69,11 +69,10 @@ namespace hap.Engine.Services
         {
             var divisor = characterSet.Length;
             var hintString = new StringBuilder();
-            var remainder = 0;
 
             do
             {
-                remainder = number % divisor;
+                var remainder = number % divisor;
                 hintString.Insert(0, characterSet[remainder]);
                 number -= remainder;
                 number /= (int)Math.Floor((double)divisor);
