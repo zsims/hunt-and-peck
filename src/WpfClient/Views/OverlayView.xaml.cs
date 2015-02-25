@@ -1,8 +1,6 @@
-﻿using System.Windows.Input;
-using Caliburn.Micro;
+﻿using System.ComponentModel;
 using hap.NativeMethods;
 using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -10,7 +8,7 @@ namespace hap.WpfClient.Views
 {
     public class HintWindow : Window
     {
-        private static DependencyProperty LogicalScreenBoundsProperty = DependencyProperty.Register(
+        private static readonly DependencyProperty LogicalScreenBoundsProperty = DependencyProperty.Register(
             "LogicalScreenBounds",
             typeof(Rect),
             typeof(HintWindow),
@@ -39,6 +37,8 @@ namespace hap.WpfClient.Views
     /// </summary>
     public partial class OverlayView : HintWindow 
     {
+        private bool _closing;
+
         public OverlayView()
         {
             InitializeComponent();
@@ -54,7 +54,11 @@ namespace hap.WpfClient.Views
 
         private void HintWindow_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            Close();
+            // We could have lost focus because we're already closing, make sure this doesn't call close twice
+            if (!_closing)
+            {
+                Close();
+            }
         }
 
         /// <summary>
@@ -100,6 +104,11 @@ namespace hap.WpfClient.Views
                     User32.AttachThreadInput(targetThread, appThread, false);
                 }
             }
+        }
+
+        private void OverlayView_OnClosing(object sender, CancelEventArgs e)
+        {
+            _closing = true;
         }
     }
 }

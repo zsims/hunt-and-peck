@@ -1,9 +1,12 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows.Input;
+using Caliburn.Micro;
 using hap.Engine.Hints;
 using hap.Engine.Services.Interfaces;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using Screen = Caliburn.Micro.Screen;
 
 namespace hap.WpfClient.ViewModels
 {
@@ -77,6 +80,14 @@ namespace hap.WpfClient.ViewModels
                     matching.First().Hint.Invoke();
                     TryClose();
                 }
+            }
+        }
+
+        public void PreviewKey(KeyEventArgs args)
+        {
+            if (args.Key == Key.Escape)
+            {
+                TryClose();
             }
         }
     }
