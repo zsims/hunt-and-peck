@@ -14,6 +14,10 @@ To use
 2. With any window focused, press Alt + ;
 3. An overlay window will be displayed, type any of the hint characters you see.
 
+Alternatively, Hunt and Peck can be launched via the command-line or AutoHotKey by specifying `/hint`:
+```
+hap.exe /hint
+```
 
 Supported Elements
 ------------------
@@ -24,5 +28,6 @@ TODO
 Some things on the "roadmap":
 
 1. The ability to customize options, including the hotkey and hint characters.
-3. More UI Automation patterns, such as scroll or expand/collapse.
-4. "Debug" mode that displays all hints regardless of supported patterns.
+2. More UI Automation patterns, such as scroll or expand/collapse.
+3. "Debug" mode that displays all hints regardless of supported patterns.
+4. Improve performance, enumerating hints can be quite slow for "busy" windows.

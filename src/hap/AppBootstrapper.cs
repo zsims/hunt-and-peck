@@ -1,5 +1,7 @@
-﻿using Autofac;
+﻿using System.Linq;
+using Autofac;
 using Caliburn.Micro;
+using hap.Models;
 using hap.Services;
 using hap.Services.Interfaces;
 using hap.ViewModels;
@@ -23,7 +25,21 @@ namespace hap
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            DisplayRootViewFor<ShellViewModel>();
+            if (e.Args.Contains("/hint"))
+            {
+                // support headless mode
+                var providerService = _container.Resolve<IHintProviderService>();
+                var windowManager = _container.Resolve<IWindowManager>();
+                var overlayFactory = _container.Resolve<Func<HintSession, OverlayViewModel>>();
+
+                var session = providerService.EnumHints();
+                var vm = overlayFactory(session);
+                windowManager.ShowWindow(vm);
+            }
+            else
+            {
+                DisplayRootViewFor<ShellViewModel>();
+            }
         }
 
         #endregion
