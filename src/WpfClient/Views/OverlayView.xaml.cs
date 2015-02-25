@@ -16,7 +16,7 @@ namespace hap.WpfClient.Views
 
         private static void OnLogicalScreenBoundsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var dt = d as HintWindow;
+            var dt = (HintWindow)d;
             var bounds = (Rect)e.NewValue;
 
             dt.Left = bounds.Left;
