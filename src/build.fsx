@@ -18,6 +18,7 @@ Target "BuildApp" (fun _ ->
 
 Target "Package" (fun _ ->
     let path = sprintf "./Release/HuntAndPeck-%s.zip" version
+    CreateDir "Release"
     ZipHelper.CreateZip "Build" path "" ZipHelper.DefaultZipLevel false !!("./Build/**")
 )
 
@@ -34,8 +35,8 @@ Target "Help" <| fun () ->
 
 Target "Root" DoNothing
 
-"BuildApp"
-    ==> "Package"
+"Clean"
+    ==> "BuildApp"
     ==> "Package"
 
 RunTargetOrDefault "Help"
