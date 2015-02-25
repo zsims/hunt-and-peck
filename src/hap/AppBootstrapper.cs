@@ -81,14 +81,9 @@ namespace hap
                    .As<IHintLabelService>()
                    .SingleInstance();
 
-            // Hint provider, there's only one for now otherwise we could expose two modules
+            // Hint provider
             builder.RegisterType<UiAutomationHintProviderService>()
                    .As<IHintProviderService>()
-                   .SingleInstance();
-
-            // Hint "Factory"
-            builder.RegisterType<UiAutomationHintFactory>()
-                   .As<IUiAutomationHintFactory>()
                    .SingleInstance();
         }
 

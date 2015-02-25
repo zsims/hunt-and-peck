@@ -81,7 +81,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\BoolToHiddenVisibility.cs" />
     <Compile Include="Extensions\IEnumerableTExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="Models\Hint.cs" />
@@ -91,11 +90,9 @@
     <Compile Include="Services\Interfaces\IHintLabelService.cs" />
     <Compile Include="Services\Interfaces\IHintProviderService.cs" />
     <Compile Include="Services\Interfaces\IKeyListenerService.cs" />
-    <Compile Include="Services\Interfaces\IUiAutomationHintFactory.cs" />
     <Compile Include="Services\KeyListenerService.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Services\UiAutomationHintFactory.cs" />
     <Compile Include="Services\UiAutomationHintProviderService.cs" />
     <Compile Include="ViewModels\HintViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
