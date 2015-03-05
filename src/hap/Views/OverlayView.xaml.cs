@@ -20,6 +20,14 @@ namespace hap.Views
             InitializeComponent();
         }
 
+        protected override void OnActivated(EventArgs e)
+        {
+            // Always want this on top. SetForegroundWindow has a few conditions:
+            // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
+            ForceForeground();
+            base.OnActivated(e);
+        }
+
         private void HintWindow_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             // We could have lost focus because we're already closing, make sure this doesn't call close twice
@@ -94,10 +102,6 @@ namespace hap.Views
             Top = vm.Bounds.Top / scaleY;
             Width = vm.Bounds.Width / scaleX;
             Height = vm.Bounds.Height / scaleY;
-
-            // We always want this on top. SetForegroundWindow has a few conditions:
-            // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
-            ForceForeground();
         }
     }
 }
