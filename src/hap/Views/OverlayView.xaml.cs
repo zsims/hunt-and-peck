@@ -1,55 +1,23 @@
 ﻿using System.ComponentModel;
+using System.Windows.Media;
 using hap.NativeMethods;
 using System;
 using System.Windows;
 using System.Windows.Interop;
+using hap.ViewModels;
 
 namespace hap.Views
 {
-    public class HintWindow : Window
-    {
-        private static readonly DependencyProperty LogicalScreenBoundsProperty = DependencyProperty.Register(
-            "LogicalScreenBounds",
-            typeof(Rect),
-            typeof(HintWindow),
-            new FrameworkPropertyMetadata(new Rect(), OnLogicalScreenBoundsChanged));
-
-        private static void OnLogicalScreenBoundsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var dt = (HintWindow)d;
-            var bounds = (Rect)e.NewValue;
-
-            dt.Left = bounds.Left;
-            dt.Top = bounds.Top;
-            dt.Width = bounds.Width;
-            dt.Height = bounds.Height;
-        }
-
-        public Rect LogicalScreenBounds
-        {
-            get { return (Rect)GetValue(LogicalScreenBoundsProperty); }
-            set { SetValue(LogicalScreenBoundsProperty, value); }
-        }
-    }
-
     /// <summary>
     /// Interaction logic for OverlayView.xaml
     /// </summary>
-    public partial class OverlayView : HintWindow 
+    public partial class OverlayView : Window 
     {
         private bool _closing;
 
         public OverlayView()
         {
             InitializeComponent();
-        }
-
-        protected override void OnActivated(EventArgs e)
-        {
-            // We always want this on top. SetForegroundWindow has a few conditions:
-            // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
-            ForceForeground();
-            base.OnActivated(e);
         }
 
         private void HintWindow_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
@@ -109,6 +77,27 @@ namespace hap.Views
         private void OverlayView_OnClosing(object sender, CancelEventArgs e)
         {
             _closing = true;
+        }
+
+        private void OverlayView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
+            var scaleX = m.M11;
+            var scaleY = m.M22;
+
+            // scale the items for non-96 DPIs
+            layoutGrid.LayoutTransform = new ScaleTransform(1/scaleX, 1/scaleY);
+
+            // resize the window for non-96 DPIs
+            var vm = DataContext as OverlayViewModel;
+            Left = vm.Bounds.Left / scaleX;
+            Top = vm.Bounds.Top / scaleY;
+            Width = vm.Bounds.Width / scaleX;
+            Height = vm.Bounds.Height / scaleY;
+
+            // We always want this on top. SetForegroundWindow has a few conditions:
+            // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
+            ForceForeground();
         }
     }
 }

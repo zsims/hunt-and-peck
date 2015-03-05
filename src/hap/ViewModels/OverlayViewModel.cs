@@ -12,23 +12,19 @@ namespace hap.ViewModels
 {
     internal class OverlayViewModel : Screen
     {
-        private readonly HintSession _session;
         private Rect _bounds;
         private ObservableCollection<HintViewModel> _hints = new ObservableCollection<HintViewModel>();
-        private readonly IHintLabelService _hintLabelService;
 
         public OverlayViewModel(
             HintSession session,
             IHintLabelService hintLabelService)
         {
-            _session = session;
             _bounds = session.OwningWindowBounds;
-            _hintLabelService = hintLabelService;
 
-            var labels = hintLabelService.GetHintStrings(_session.Hints.Count());
+            var labels = hintLabelService.GetHintStrings(session.Hints.Count());
             for (int i = 0; i < labels.Count; ++i)
             {
-                var hint = _session.Hints[i];
+                var hint = session.Hints[i];
                 _hints.Add(new HintViewModel(hint)
                 {
                     Label = labels[i],

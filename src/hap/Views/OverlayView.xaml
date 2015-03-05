@@ -1,19 +1,17 @@
-﻿<local:HintWindow
-        x:Class="hap.Views.OverlayView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:hap.Views"
-        xmlns:cal="http://www.caliburnproject.org"
-        LogicalScreenBounds="{Binding Bounds}"
-        WindowStyle="None"
-        ResizeMode="NoResize"
-        AllowsTransparency="True"
-        FocusManager.FocusedElement="{Binding ElementName=MatchStringControl}"
-        LostKeyboardFocus="HintWindow_LostKeyboardFocus"
-        Closing="OverlayView_OnClosing"
-        cal:Message.Attach="[Event PreviewKeyDown] = [Action PreviewKey($eventArgs)]">
-    
-    <local:HintWindow.Resources>
+﻿<Window
+    x:Class="hap.Views.OverlayView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cal="http://www.caliburnproject.org"
+    WindowStyle="None"
+    ResizeMode="NoResize"
+    AllowsTransparency="True"
+    FocusManager.FocusedElement="{Binding ElementName=MatchStringControl}"
+    LostKeyboardFocus="HintWindow_LostKeyboardFocus"
+    Loaded="OverlayView_OnLoaded"
+    Closing="OverlayView_OnClosing"
+    cal:Message.Attach="[Event PreviewKeyDown] = [Action PreviewKey($eventArgs)]">
+    <Window.Resources>
         <Style x:Key="HintStyle" TargetType="TextBlock">
             <Setter Property="Background" Value="Yellow" />
             <Style.Triggers>
@@ -22,12 +20,11 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-    </local:HintWindow.Resources>
-    
-    <local:HintWindow.Background>
+    </Window.Resources>
+    <Window.Background>
         <SolidColorBrush Color="Transparent" />
-    </local:HintWindow.Background>
-    <Grid>
+    </Window.Background>
+    <Grid x:Name="layoutGrid">
         <TextBox x:Name="MatchStringControl" Text="{Binding MatchString, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" VerticalAlignment="Bottom" Background="Black" Foreground="White" />
         <ItemsControl ItemsSource="{Binding Hints}">
             <ItemsControl.ItemsPanel>
@@ -60,5 +57,5 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         </Grid>
-</local:HintWindow>
+</Window>
 
