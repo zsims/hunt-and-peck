@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using Autofac;
 using Caliburn.Micro;
 using hap.Models;
@@ -15,6 +16,7 @@ namespace hap
     public class AppBootstrapper : BootstrapperBase
     {
         private IContainer _container;
+        private SingleLaunchMutex _singleLaunchMutex = new SingleLaunchMutex();
 
         public AppBootstrapper()
         {
@@ -38,6 +40,13 @@ namespace hap
             }
             else
             {
+                // Prevent multiple startup in non-headless mode
+                if (_singleLaunchMutex.AlreadyRunning)
+                {
+                    Application.Current.Shutdown();
+                    return;
+                }
+
                 DisplayRootViewFor<ShellViewModel>();
             }
         }
@@ -50,6 +59,9 @@ namespace hap
         {
             _container.Dispose();
             _container = null;
+
+            _singleLaunchMutex.Dispose();
+            _singleLaunchMutex = null;
 
             base.OnExit(sender, e);
         }

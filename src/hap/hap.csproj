@@ -112,6 +112,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Services\UiAutomationHintProviderService.cs" />
+    <Compile Include="SingleLaunchMutex.cs" />
     <Compile Include="ViewModels\HintViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
