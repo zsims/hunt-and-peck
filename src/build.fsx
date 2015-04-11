@@ -11,6 +11,8 @@ Target "BuildApp" (fun _ ->
              Attribute.FileVersion version
              Attribute.Product "HuntAndPeck"
              Attribute.Copyright "Copyright Zachary Sims"]
+
+    RestorePackages()
     
     MSBuildRelease "./Build" "Build" ["./HuntAndPeck.sln"]
         |> Log "AppBuild-Output: "
