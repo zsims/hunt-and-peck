@@ -101,10 +101,12 @@
     </Compile>
     <Compile Include="Extensions\IEnumerableTExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
+    <Compile Include="Models\DebugHint.cs" />
     <Compile Include="Models\Hint.cs" />
     <Compile Include="Models\HintSession.cs" />
     <Compile Include="Models\UiAutomationHint.cs" />
     <Compile Include="Services\HintLabelService.cs" />
+    <Compile Include="Services\Interfaces\IDebugHintProviderService.cs" />
     <Compile Include="Services\Interfaces\IHintLabelService.cs" />
     <Compile Include="Services\Interfaces\IHintProviderService.cs" />
     <Compile Include="Services\Interfaces\IKeyListenerService.cs" />
@@ -113,10 +115,16 @@
     </Compile>
     <Compile Include="Services\UiAutomationHintProviderService.cs" />
     <Compile Include="SingleLaunchMutex.cs" />
+    <Compile Include="ViewModels\DebugHintViewModel.cs" />
+    <Compile Include="ViewModels\DebugOverlayViewModel.cs" />
     <Compile Include="ViewModels\HintViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\OverlayViewModel.cs" />
+    <Compile Include="Views\DebugOverlayView.xaml.cs">
+      <DependentUpon>DebugOverlayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ForegroundWindow.cs" />
     <Compile Include="Views\OptionsView.xaml.cs">
       <DependentUpon>OptionsView.xaml</DependentUpon>
     </Compile>
@@ -160,6 +168,10 @@
     <Resource Include="Resources\originalbird.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\DebugOverlayView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\OptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

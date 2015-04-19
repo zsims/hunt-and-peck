@@ -4,29 +4,43 @@ using hap.NativeMethods;
 using hap.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
 
 namespace hap.Services
 {
-    internal class UiAutomationHintProviderService : IHintProviderService
+    internal class UiAutomationHintProviderService : IHintProviderService, IDebugHintProviderService
     {
-        /// <summary>
-        /// Enumerate the available hints for the current foreground window
-        /// </summary>
-        /// <returns>The hint session containing the available hints</returns>
         public HintSession EnumHints()
         {
             var desktopHandle = User32.GetForegroundWindow();
             return EnumHints(desktopHandle);
         }
 
-        /// <summary>
-        /// Enumerate the available hints for the given window
-        /// </summary>
-        /// <param name="hWnd">The window handle of window to enumerate hints in</param>
-        /// <returns>The hint session containing the available hints</returns>
         public HintSession EnumHints(IntPtr hWnd)
+        {
+            return EnumWindowHints(hWnd, CreateHint);
+        }
+
+        public HintSession EnumDebugHints()
+        {
+            var desktopHandle = User32.GetForegroundWindow();
+            return EnumDebugHints(desktopHandle);
+        }
+
+        public HintSession EnumDebugHints(IntPtr hWnd)
+        {
+            return EnumWindowHints(hWnd, CreateDebugHint);
+        }
+
+        /// <summary>
+        /// Enumerates all the hints from the given window
+        /// </summary>
+        /// <param name="hWnd">The window to get hints from</param>
+        /// <param name="hintFactory">The factory to use to create each hint in the session</param>
+        /// <returns>A hint session</returns>
+        private HintSession EnumWindowHints(IntPtr hWnd, Func<IntPtr, Rect, AutomationElement, Hint> hintFactory)
         {
             var result = new List<Hint>();
             var elements = EnumElements(hWnd);
@@ -38,11 +52,33 @@ namespace hap.Services
 
             foreach (AutomationElement element in elements)
             {
-                var hint = CreateHint(hWnd, windowBounds, element);
+                var boundingRectObject = element.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty, true);
 
-                if (hint != null)
+                if (boundingRectObject == AutomationElement.NotSupported)
                 {
-                    result.Add(hint);
+                    // Not supported
+                    continue;
+                }
+
+                var boundingRect = (Rect)boundingRectObject;
+                if (boundingRect.IsEmpty)
+                {
+                    // Not currently displaying UI
+                    continue;
+                }
+
+                // Convert the bounding rect to logical coords
+                var logicalRect = boundingRect.PhysicalToLogicalRect(hWnd);
+                if (!logicalRect.IsEmpty)
+                {
+                    var windowCoords = boundingRect.ScreenToWindowCoordinates(windowBounds);
+
+                    var hint = hintFactory(hWnd, windowCoords, element);
+
+                    if (hint != null)
+                    {
+                        result.Add(hint);
+                    }
                 }
             }
 
@@ -72,42 +108,46 @@ namespace hap.Services
         /// Creates a UI Automation element from the given automation element
         /// </summary>
         /// <param name="owningWindow">The owning window</param>
-        /// <param name="windowBounds">The window bounds</param>
+        /// <param name="hintBounds">The hint bounds</param>
         /// <param name="automationElement">The associated automation element</param>
         /// <returns>The created hint, else null if the hint could not be created</returns>
-        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect windowBounds, AutomationElement automationElement)
+        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect hintBounds, AutomationElement automationElement)
         {
-            var boundingRectObject = automationElement.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty, true);
-
-            if (boundingRectObject == AutomationElement.NotSupported)
+            InvokePattern pattern;
+            if (TryGetInvokePattern(automationElement, out pattern))
             {
-                // Not supported
-                return null;
-            }
-
-            var boundingRect = (Rect)boundingRectObject;
-            if (boundingRect.IsEmpty)
-            {
-                // Not currently displaying UI
-                return null;
-            }
-
-            // Convert the bounding rect to logical coords
-            var logicalRect = boundingRect.PhysicalToLogicalRect(owningWindow);
-            if (!logicalRect.IsEmpty)
-            {
-                var windowCoords = boundingRect.ScreenToWindowCoordinates(windowBounds);
-
-                InvokePattern pattern;
-                if (TryGetInvokePattern(automationElement, out pattern))
-                {
-                    return new UiAutomationHint(owningWindow, automationElement, pattern, windowCoords);
-                }
+                return new UiAutomationHint(owningWindow, automationElement, pattern, hintBounds);
             }
 
             return null;
         }
 
+        /// <summary>
+        /// Creates a debug hint
+        /// </summary>
+        /// <param name="owningWindow">The window that owns the hint</param>
+        /// <param name="hintBounds">The hint bounds</param>
+        /// <param name="automationElement">The automation element</param>
+        /// <returns>A debug hint</returns>
+        private DebugHint CreateDebugHint(IntPtr owningWindow, Rect hintBounds, AutomationElement automationElement)
+        {
+            var supportedPatterns = automationElement.GetSupportedPatterns();
+            var programmaticNames = supportedPatterns.Select(x => x.ProgrammaticName);
+
+            if (supportedPatterns.Any())
+            {
+                return new DebugHint(owningWindow, hintBounds, programmaticNames.ToList());
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Tries to get the invoke pattern (if available)
+        /// </summary>
+        /// <param name="automationElement">The automation element to get the pattern from</param>
+        /// <param name="pattern">The pattern that was retrieved</param>
+        /// <returns>True if the pattern was retrieved, false otherwise</returns>
         private bool TryGetInvokePattern(AutomationElement automationElement, out InvokePattern pattern)
         {
             object invokePattern;

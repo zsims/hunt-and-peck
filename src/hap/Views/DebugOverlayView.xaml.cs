@@ -1,22 +1,20 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
 using hap.ViewModels;
 
 namespace hap.Views
 {
     /// <summary>
-    /// Interaction logic for OverlayView.xaml
+    /// Interaction logic for DebugOverlayView.xaml
     /// </summary>
-    public partial class OverlayView
+    public partial class DebugOverlayView
     {
-        public OverlayView()
+        public DebugOverlayView()
         {
             InitializeComponent();
         }
 
-        private void OverlayView_OnLoaded(object sender, RoutedEventArgs e)
+        private void DebugOverlayView_OnLoaded(object sender, RoutedEventArgs e)
         {
             var m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
             var scaleX = m.M11;
@@ -26,7 +24,7 @@ namespace hap.Views
             layoutGrid.LayoutTransform = new ScaleTransform(1/scaleX, 1/scaleY);
 
             // resize the window for non-96 DPIs
-            var vm = DataContext as OverlayViewModel;
+            var vm = DataContext as DebugOverlayViewModel;
             Left = vm.Bounds.Left / scaleX;
             Top = vm.Bounds.Top / scaleY;
             Width = vm.Bounds.Width / scaleX;

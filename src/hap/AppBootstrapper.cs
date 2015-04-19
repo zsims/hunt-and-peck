@@ -1,15 +1,14 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using hap.Models;
 using hap.Services;
 using hap.Services.Interfaces;
 using hap.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Windows;
 
 namespace hap
 {
@@ -95,7 +94,7 @@ namespace hap
 
             // Hint provider
             builder.RegisterType<UiAutomationHintProviderService>()
-                   .As<IHintProviderService>()
+                   .AsImplementedInterfaces()
                    .SingleInstance();
         }
 
