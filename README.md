@@ -29,5 +29,5 @@ Some things on the "roadmap":
 
 1. The ability to customize options, including the hotkey and hint characters.
 2. More UI Automation patterns, such as scroll or expand/collapse.
-3. "Debug" mode that displays all hints regardless of supported patterns.
+3. ~~"Debug" mode that displays all hints regardless of supported patterns.~~
 4. Improve performance, enumerating hints can be quite slow for "busy" windows.
