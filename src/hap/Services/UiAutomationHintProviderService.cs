@@ -63,9 +63,7 @@ namespace hap.Services
         {
             var automationElement = AutomationElement.FromHandle(hWnd);
             var condition = new AndCondition(new PropertyCondition(AutomationElement.IsOffscreenProperty, false),
-                                             new PropertyCondition(AutomationElement.IsEnabledProperty, true),
-                                             // Filter out non-invoke patterns to speed this up as this can be slow for large windows
-                                             new PropertyCondition(AutomationElement.IsInvokePatternAvailableProperty, true));
+                                             new PropertyCondition(AutomationElement.IsEnabledProperty, true));
 
             return automationElement.FindAll(TreeScope.Descendants, condition);
         }
@@ -77,7 +75,7 @@ namespace hap.Services
         /// <param name="windowBounds">The window bounds</param>
         /// <param name="automationElement">The associated automation element</param>
         /// <returns>The created hint, else null if the hint could not be created</returns>
-        public UiAutomationHint CreateHint(IntPtr owningWindow, Rect windowBounds, AutomationElement automationElement)
+        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect windowBounds, AutomationElement automationElement)
         {
             var boundingRectObject = automationElement.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty, true);
 
@@ -99,6 +97,7 @@ namespace hap.Services
             if (!logicalRect.IsEmpty)
             {
                 var windowCoords = boundingRect.ScreenToWindowCoordinates(windowBounds);
+
                 InvokePattern pattern;
                 if (TryGetInvokePattern(automationElement, out pattern))
                 {

@@ -35,10 +35,24 @@ namespace hap.ViewModels
                 Modifier = KeyModifier.Alt
             };
 
+            _keyListener.DebugHotKey = new HotKey
+            {
+                Keys = System.Windows.Forms.Keys.OemSemicolon,
+                Modifier = KeyModifier.Alt | KeyModifier.Shift
+            };
+
             _keyListener.OnHotKeyActivated += _keyListener_OnHotKeyActivated;
+            _keyListener.OnDebugHotKeyActivated += _keyListener_OnDebugHotKeyActivated;
         }
 
         private void _keyListener_OnHotKeyActivated(object sender, System.EventArgs e)
+        {
+            var session = _hintProviderService.EnumHints();
+            var vm = _overlayFactory(session);
+            _windowManager.ShowWindow(vm);
+        }
+
+        private void _keyListener_OnDebugHotKeyActivated(object sender, System.EventArgs e)
         {
             var session = _hintProviderService.EnumHints();
             var vm = _overlayFactory(session);

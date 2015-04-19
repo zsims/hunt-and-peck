@@ -8,36 +8,29 @@ namespace hap.Services
     internal class KeyListenerService : Form, IKeyListenerService, IDisposable
     {
         public event EventHandler OnHotKeyActivated;
+        public event EventHandler OnDebugHotKeyActivated;
 
         /// <summary>
-        /// Current hotkey reference id
+        /// Global counter for assigning ids to identiy the hot key registration
         /// </summary>
-        private int _hotKeyId = 0;
+        private int _hotkeyIdCounter = 0;
 
-        /// <summary>
-        /// Whether a hotkey has been currently registered
-        /// </summary>
-        private bool _currentlyRegistered;
-
-        /// <summary>
-        /// The hotkey
-        /// </summary>
         private HotKey _hotKey;
+        private HotKey _debugHotKey;
 
         /// <summary>
         /// Re-registers the current hotkey, unregistering any previous key
         /// </summary>
-        private void ReRegisterHotkey()
+        private void ReRegisterHotKey(HotKey hotKey)
         {
-            if (_currentlyRegistered)
+            // Already registered, have to unregister first
+            if (hotKey.RegistrationId > 0)
             {
-                User32.UnregisterHotKey(Handle, _hotKeyId);
-                _currentlyRegistered = false;
+                User32.UnregisterHotKey(Handle, hotKey.RegistrationId);
             }
 
-            _hotKeyId++;
-            User32.RegisterHotKey(Handle, _hotKeyId, (uint)_hotKey.Modifier, (uint)_hotKey.Keys);
-            _currentlyRegistered = true;
+            hotKey.RegistrationId = _hotkeyIdCounter++;
+            User32.RegisterHotKey(Handle, hotKey.RegistrationId, (uint)hotKey.Modifier, (uint)hotKey.Keys);
         }
 
         /// <summary>
@@ -46,14 +39,27 @@ namespace hap.Services
         /// <remarks>Changing this will cause the current hotkey to be unregistered</remarks>
         public HotKey HotKey
         {
-            set
-            {
-                _hotKey = value;
-                ReRegisterHotkey();
-            }
             get
             {
                 return _hotKey;
+            }
+            set
+            {
+                _hotKey = value;
+                ReRegisterHotKey(_hotKey);
+            }
+        }
+
+        public HotKey DebugHotKey
+        {
+            get
+            {
+                return _debugHotKey;
+            }
+            set
+            {
+                _debugHotKey = value;
+                ReRegisterHotKey(_debugHotKey);
             }
         }
 
@@ -63,11 +69,20 @@ namespace hap.Services
             {
                 var e = new HotKeyEventArgs(m.LParam);
 
+                // Normal hotkey
                 if (e.Key == _hotKey.Keys &&
                     e.Modifiers == _hotKey.Modifier &&
                     OnHotKeyActivated != null)
                 {
                     OnHotKeyActivated(this, new EventArgs());
+                }
+
+                // Debug hotkey
+                if (e.Key == _debugHotKey.Keys &&
+                    e.Modifiers == _debugHotKey.Modifier &&
+                    OnDebugHotKeyActivated != null)
+                {
+                    OnDebugHotKeyActivated(this, new EventArgs());
                 }
             }
 

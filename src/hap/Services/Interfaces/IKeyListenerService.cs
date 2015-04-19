@@ -8,6 +8,11 @@ namespace hap.Services.Interfaces
     {
         public KeyModifier Modifier { get; set; }
         public Keys Keys { get; set; }
+
+        /// <summary>
+        /// Id of the hot key registration
+        /// </summary>
+        public int RegistrationId { get; set; }
     }
 
     /// <summary>
@@ -16,7 +21,9 @@ namespace hap.Services.Interfaces
     internal interface IKeyListenerService
     {
         event EventHandler OnHotKeyActivated;
+        event EventHandler OnDebugHotKeyActivated;
 
         HotKey HotKey { get; set; }
+        HotKey DebugHotKey { get; set; }
     }
 }
