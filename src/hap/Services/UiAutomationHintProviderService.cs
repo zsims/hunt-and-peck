@@ -4,6 +4,7 @@ using hap.NativeMethods;
 using hap.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
@@ -20,7 +21,13 @@ namespace hap.Services
 
         public HintSession EnumHints(IntPtr hWnd)
         {
-            return EnumWindowHints(hWnd, CreateHint);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            var session = EnumWindowHints(hWnd, CreateHint);
+            sw.Stop();
+
+            Debug.WriteLine("Enumeration of hints took {0} ms", sw.ElapsedMilliseconds);
+            return session;
         }
 
         public HintSession EnumDebugHints()
@@ -42,14 +49,26 @@ namespace hap.Services
         /// <returns>A hint session</returns>
         private HintSession EnumWindowHints(IntPtr hWnd, Func<IntPtr, Rect, AutomationElement, Hint> hintFactory)
         {
-            var result = new List<Hint>();
-            var elements = EnumElements(hWnd);
+            // Set up the request.
+            CacheRequest cacheRequest = new CacheRequest();
+            cacheRequest.Add(AutomationElement.BoundingRectangleProperty);
+            cacheRequest.Add(AutomationElement.IsEnabledProperty);
+            cacheRequest.Add(AutomationElement.IsOffscreenProperty);
+            cacheRequest.Add(InvokePattern.Pattern);
+
+            // Obtain an element and cache the requested items. 
+            AutomationElementCollection elements;
+            using (cacheRequest.Activate())
+            {
+                elements = EnumElements(hWnd);
+            }
 
             // Window bounds
             var rawWindowBounds = new RECT();
             User32.GetWindowRect(hWnd, ref rawWindowBounds);
             Rect windowBounds = rawWindowBounds;
 
+            var result = new List<Hint>();
             foreach (AutomationElement element in elements)
             {
                 var boundingRectObject = element.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty, true);
@@ -151,7 +170,8 @@ namespace hap.Services
         private bool TryGetInvokePattern(AutomationElement automationElement, out InvokePattern pattern)
         {
             object invokePattern;
-            if(automationElement.TryGetCurrentPattern(InvokePattern.Pattern, out invokePattern))
+            
+            if(automationElement.TryGetCachedPattern(InvokePattern.Pattern, out invokePattern))
             {
                 pattern = invokePattern as InvokePattern;
                 return pattern != null;
