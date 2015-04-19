@@ -4,6 +4,7 @@ using hap.NativeMethods;
 using hap.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
@@ -20,7 +21,13 @@ namespace hap.Services
 
         public HintSession EnumHints(IntPtr hWnd)
         {
-            return EnumWindowHints(hWnd, CreateHint);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            var session = EnumWindowHints(hWnd, CreateHint);
+            sw.Stop();
+
+            Debug.WriteLine("Enumeration of hints took {0} ms", sw.ElapsedMilliseconds);
+            return session;
         }
 
         public HintSession EnumDebugHints()
