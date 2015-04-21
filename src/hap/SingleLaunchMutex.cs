@@ -23,7 +23,8 @@ namespace hap
 
         public bool AlreadyRunning
         {
-            get { return !_aquiredHandle; }
+//            get { return !_aquiredHandle; }
+            get { return false; }
         }
 
         public void Dispose()

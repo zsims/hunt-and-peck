@@ -1,4 +1,5 @@
-﻿using hap.Extensions;
+﻿using Accessibility;
+using hap.Extensions;
 using hap.Models;
 using hap.NativeMethods;
 using hap.Services.Interfaces;
@@ -38,8 +39,85 @@ namespace hap.Services
 
         public HintSession EnumDebugHints(IntPtr hWnd)
         {
-            return EnumWindowHints(hWnd, CreateDebugHint);
+            var accessible = GetAccessibleObjectFromHandle(hWnd);
+            var kids = GetAccessibleChildren(accessible);
+
+            var rawWindowBounds = new RECT();
+            User32.GetWindowRect(hWnd, ref rawWindowBounds);
+            Rect windowBounds = rawWindowBounds;
+
+            var hints = new List<Hint>();
+            foreach (var kid in kids)
+            {
+                var location = GetLocation(kid);
+
+                var logicalRect = location.PhysicalToLogicalRect(hWnd);
+                if (!logicalRect.IsEmpty)
+                {
+                    location = logicalRect.ScreenToWindowCoordinates(windowBounds);
+                }
+
+                hints.Add(new DebugHint(hWnd, location, new []{ "?" }));
+            }
+
+            return new HintSession
+            {
+                Hints = hints,
+                OwningWindow = hWnd,
+                OwningWindowBounds = windowBounds
+            };
         }
+
+        private Rect GetLocation(IAccessible accObject)
+        {
+            int x1, y1;
+            int width;
+            int height;
+
+            accObject.accLocation(out x1, out y1, out width, out height, 0);
+            if (x1 > 0 && y1 > 0 && width > 0 && height > 0)
+            {
+                return new Rect(x1, y1, width, height);
+            }
+            return Rect.Empty;
+        }
+
+        public static IAccessible GetAccessibleObjectFromHandle(IntPtr hwnd)
+        {
+            IAccessible objAccessible = default(IAccessible);
+            var guidAccessible = new Guid("{618736E0-3C3D-11CF-810C-00AA00389B71}");
+            if (hwnd != IntPtr.Zero)
+            {
+                objAccessible = (IAccessible)OleAcc.AccessibleObjectFromWindow(hwnd.ToInt32(), 0, ref guidAccessible);
+            }
+            return objAccessible;
+        }
+
+        public static IAccessible[] GetAccessibleChildren(IAccessible objAccessible)
+        {
+            int childCount = 0;
+
+            try
+            {
+                childCount = objAccessible.accChildCount;
+            }
+            catch (Exception ex)
+            {
+                childCount = 0;
+            }
+
+            var accObjects = new IAccessible[childCount];
+            int count = 0;
+
+            if (childCount != 0)
+            {
+                OleAcc.AccessibleChildren(objAccessible, 0, childCount, accObjects, ref count);
+            }
+
+            return accObjects;
+        }
+
+
 
         /// <summary>
         /// Enumerates all the hints from the given window
