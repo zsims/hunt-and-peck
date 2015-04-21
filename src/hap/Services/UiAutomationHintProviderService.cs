@@ -13,6 +13,13 @@ namespace hap.Services
 {
     internal class UiAutomationHintProviderService : IHintProviderService, IDebugHintProviderService
     {
+        private readonly ISessionCache _sessionCache;
+
+        public UiAutomationHintProviderService(ISessionCache sessionCache)
+        {
+            _sessionCache = sessionCache;
+        }
+
         public HintSession EnumHints()
         {
             var desktopHandle = User32.GetForegroundWindow();
@@ -21,6 +28,14 @@ namespace hap.Services
 
         public HintSession EnumHints(IntPtr hWnd)
         {
+            var cachedSession = _sessionCache.GetSession(hWnd);
+
+            if (cachedSession != null)
+            {
+                Debug.WriteLine("Using cached session");
+                return cachedSession;
+            }
+
             Stopwatch sw = new Stopwatch();
             sw.Start();
             var session = EnumWindowHints(hWnd, CreateHint);

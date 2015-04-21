@@ -48,6 +48,7 @@
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="EventConstants.cs" />
     <Compile Include="HotKeyEventArgs.cs" />
     <Compile Include="Kernel32.cs" />
     <Compile Include="KeyModifier.cs" />

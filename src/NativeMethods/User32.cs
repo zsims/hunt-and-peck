@@ -5,6 +5,8 @@ namespace hap.NativeMethods
 {
     public static class User32
     {
+        public delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
+
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
 
@@ -37,5 +39,30 @@ namespace hap.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern IntPtr SetFocus(IntPtr hWnd);
+
+        /// <summary>
+        /// Per https://msdn.microsoft.com/en-us/library/windows/desktop/dd373640%28v=vs.85%29.aspx
+        /// </summary>
+        [Flags]
+        public enum SetWinEventHookFlags
+        {
+            WINEVENT_INCONTEXT = 4,
+            WINEVENT_OUTOFCONTEXT = 0,
+            WINEVENT_SKIPOWNPROCESS = 2,
+            WINEVENT_SKIPOWNTHREAD = 1
+        } 
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWinEventHook(
+            uint eventMin,
+            uint eventMax,
+            IntPtr hmodWinEventProc,
+            WinEventDelegate lpfnWinEventProc,
+            uint idProcess,
+            uint idThread,
+            uint dwFlags);
+
+        [DllImport("user32.dll")]
+        public static extern bool UnhookWinEvent(IntPtr hWinEventHook);
     }
 }

@@ -82,7 +82,16 @@ namespace hap
 
         private void RegisterServices(ContainerBuilder builder)
         {
+            builder.RegisterType<SessionCache>()
+                   .AsImplementedInterfaces()
+                   .SingleInstance();
+
             builder.RegisterType<KeyListenerService>()
+                   .AsImplementedInterfaces()
+                   .SingleInstance()
+                   .AutoActivate();
+
+            builder.RegisterType<AheadOfTimeSessionService>()
                    .AsImplementedInterfaces()
                    .SingleInstance()
                    .AutoActivate();
