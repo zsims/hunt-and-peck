@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using hap.Models;
 using hap.NativeMethods;
@@ -41,9 +42,7 @@ namespace hap.Services
             uint dwEventThread,
             uint dwmsEventTime)
         {
-            // Has to be done on the UI thread or things blow up
-            // TODO: This isn't ideal as we'll lock up the UI thread obviously :)
-            Application.Current.Dispatcher.Invoke(() =>
+            Task.Run(() =>
             {
                 HintSession session = null;
                 try
