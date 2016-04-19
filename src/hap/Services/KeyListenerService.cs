@@ -70,7 +70,8 @@ namespace hap.Services
                 var e = new HotKeyEventArgs(m.LParam);
 
                 // Normal hotkey
-                if (e.Key == _hotKey.Keys &&
+                if (_hotKey != null &&
+                    e.Key == _hotKey.Keys &&
                     e.Modifiers == _hotKey.Modifier &&
                     OnHotKeyActivated != null)
                 {
@@ -78,7 +79,8 @@ namespace hap.Services
                 }
 
                 // Debug hotkey
-                if (e.Key == _debugHotKey.Keys &&
+                if (_debugHotKey != null &&
+                    e.Key == _debugHotKey.Keys &&
                     e.Modifiers == _debugHotKey.Modifier &&
                     OnDebugHotKeyActivated != null)
                 {
