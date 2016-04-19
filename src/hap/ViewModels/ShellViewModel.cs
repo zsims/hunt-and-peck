@@ -57,15 +57,21 @@ namespace hap.ViewModels
         private void _keyListener_OnHotKeyActivated(object sender, EventArgs e)
         {
             var session = _hintProviderService.EnumHints();
-            var vm = _overlayFactory(session);
-            _windowManager.ShowWindow(vm);
+            if (session != null)
+            {
+                var vm = _overlayFactory(session);
+                _windowManager.ShowWindow(vm);
+            }
         }
 
         private void _keyListener_OnDebugHotKeyActivated(object sender, EventArgs e)
         {
             var session = _debugHintProviderService.EnumDebugHints();
-            var vm = _debugOverlayFactory(session);
-            _windowManager.ShowWindow(vm);
+            if (session != null)
+            {
+                var vm = _debugOverlayFactory(session);
+                _windowManager.ShowWindow(vm);
+            }
         }
 
         public void Exit()

@@ -17,8 +17,12 @@ namespace hap.Services
 
         public HintSession EnumHints()
         {
-            var desktopHandle = User32.GetForegroundWindow();
-            return EnumHints(desktopHandle);
+            var foregroundWindow = User32.GetForegroundWindow();
+            if (foregroundWindow == IntPtr.Zero)
+            {
+                return null;
+            }
+            return EnumHints(foregroundWindow);
         }
 
         public HintSession EnumHints(IntPtr hWnd)
@@ -34,8 +38,12 @@ namespace hap.Services
 
         public HintSession EnumDebugHints()
         {
-            var desktopHandle = User32.GetForegroundWindow();
-            return EnumDebugHints(desktopHandle);
+            var foregroundWindow = User32.GetForegroundWindow();
+            if (foregroundWindow == IntPtr.Zero)
+            {
+                return null;
+            }
+            return EnumDebugHints(foregroundWindow);
         }
 
         public HintSession EnumDebugHints(IntPtr hWnd)

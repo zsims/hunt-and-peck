@@ -11,14 +11,7 @@ namespace hap.Services.Interfaces
         /// <summary>
         /// Enumerate the available hints for the current foreground window
         /// </summary>
-        /// <returns>The hint session containing the available hints</returns>
+        /// <returns>The hint session containing the available hints or null if there is no foreground window</returns>
         HintSession EnumHints();
-
-        /// <summary>
-        /// Enumerate the available hints for the given window
-        /// </summary>
-        /// <param name="hWnd">The window handle of window to enumerate hints in</param>
-        /// <returns>The hint session containing the available hints</returns>
-        HintSession EnumHints(IntPtr hWnd);
     }
 }
