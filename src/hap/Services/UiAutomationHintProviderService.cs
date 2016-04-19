@@ -7,12 +7,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using System.Windows.Automation;
+using UIAutomationClient;
 
 namespace hap.Services
 {
     internal class UiAutomationHintProviderService : IHintProviderService, IDebugHintProviderService
     {
+        private readonly IUIAutomation _automation = new CUIAutomation();
+
         public HintSession EnumHints()
         {
             var desktopHandle = User32.GetForegroundWindow();
@@ -47,7 +49,7 @@ namespace hap.Services
         /// <param name="hWnd">The window to get hints from</param>
         /// <param name="hintFactory">The factory to use to create each hint in the session</param>
         /// <returns>A hint session</returns>
-        private HintSession EnumWindowHints(IntPtr hWnd, Func<IntPtr, Rect, AutomationElement, Hint> hintFactory)
+        private HintSession EnumWindowHints(IntPtr hWnd, Func<IntPtr, Rect, IUIAutomationElement, Hint> hintFactory)
         {
             var result = new List<Hint>();
             var elements = EnumElements(hWnd);
@@ -57,34 +59,22 @@ namespace hap.Services
             User32.GetWindowRect(hWnd, ref rawWindowBounds);
             Rect windowBounds = rawWindowBounds;
 
-            foreach (AutomationElement element in elements)
+            foreach (var element in elements)
             {
-                var boundingRectObject = element.GetCurrentPropertyValue(AutomationElement.BoundingRectangleProperty, true);
-
-                if (boundingRectObject == AutomationElement.NotSupported)
+                var boundingRectObject = element.CurrentBoundingRectangle;
+                if ((boundingRectObject.right > boundingRectObject.left) && (boundingRectObject.bottom > boundingRectObject.top))
                 {
-                    // Not supported
-                    continue;
-                }
-
-                var boundingRect = (Rect)boundingRectObject;
-                if (boundingRect.IsEmpty)
-                {
-                    // Not currently displaying UI
-                    continue;
-                }
-
-                // Convert the bounding rect to logical coords
-                var logicalRect = boundingRect.PhysicalToLogicalRect(hWnd);
-                if (!logicalRect.IsEmpty)
-                {
-                    var windowCoords = boundingRect.ScreenToWindowCoordinates(windowBounds);
-
-                    var hint = hintFactory(hWnd, windowCoords, element);
-
-                    if (hint != null)
+                    var niceRect = new Rect(new Point(boundingRectObject.left, boundingRectObject.top), new Point(boundingRectObject.right, boundingRectObject.bottom));
+                    // Convert the bounding rect to logical coords
+                    var logicalRect = niceRect.PhysicalToLogicalRect(hWnd);
+                    if (!logicalRect.IsEmpty)
                     {
-                        result.Add(hint);
+                        var windowCoords = niceRect.ScreenToWindowCoordinates(windowBounds);
+                        var hint = hintFactory(hWnd, windowCoords, element);
+                        if (hint != null)
+                        {
+                            result.Add(hint);
+                        }
                     }
                 }
             }
@@ -102,13 +92,25 @@ namespace hap.Services
         /// </summary>
         /// <param name="hWnd">The window handle</param>
         /// <returns>All of the automation elements found</returns>
-        private AutomationElementCollection EnumElements(IntPtr hWnd)
+        private List<IUIAutomationElement> EnumElements(IntPtr hWnd)
         {
-            var automationElement = AutomationElement.FromHandle(hWnd);
-            var condition = new AndCondition(new PropertyCondition(AutomationElement.IsOffscreenProperty, false),
-                                             new PropertyCondition(AutomationElement.IsEnabledProperty, true));
+            var result = new List<IUIAutomationElement>();
+            var automationElement = _automation.ElementFromHandle(hWnd);
 
-            return automationElement.FindAll(TreeScope.Descendants, condition);
+            var conditionControlView = _automation.ControlViewCondition;
+            var conditionEnabled = _automation.CreatePropertyCondition(UIA_PropertyIds.UIA_IsEnabledPropertyId, true);
+            var enabledControlCondition = _automation.CreateAndCondition(conditionControlView, conditionEnabled);
+
+            var conditionOnScreen = _automation.CreatePropertyCondition(UIA_PropertyIds.UIA_IsOffscreenPropertyId, false);
+            var condition = _automation.CreateAndCondition(enabledControlCondition, conditionOnScreen);
+
+            var elementArray = automationElement.FindAll(TreeScope.TreeScope_Descendants, condition);
+            for (var i = 0; i < elementArray.Length; ++i)
+            {
+                result.Add(elementArray.GetElement(i));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -118,15 +120,22 @@ namespace hap.Services
         /// <param name="hintBounds">The hint bounds</param>
         /// <param name="automationElement">The associated automation element</param>
         /// <returns>The created hint, else null if the hint could not be created</returns>
-        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect hintBounds, AutomationElement automationElement)
+        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect hintBounds, IUIAutomationElement automationElement)
         {
-            InvokePattern pattern;
-            if (TryGetInvokePattern(automationElement, out pattern))
+            try
             {
-                return new UiAutomationHint(owningWindow, automationElement, pattern, hintBounds);
+                var pattern = (IUIAutomationInvokePattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_InvokePatternId);
+                if (pattern == null)
+                {
+                    return null;
+                }
+                return new UiAutomationHint(owningWindow, pattern, hintBounds);
             }
-
-            return null;
+            catch (Exception)
+            {
+                // May have gone
+                return null;
+            }
         }
 
         /// <summary>
@@ -136,36 +145,32 @@ namespace hap.Services
         /// <param name="hintBounds">The hint bounds</param>
         /// <param name="automationElement">The automation element</param>
         /// <returns>A debug hint</returns>
-        private DebugHint CreateDebugHint(IntPtr owningWindow, Rect hintBounds, AutomationElement automationElement)
+        private DebugHint CreateDebugHint(IntPtr owningWindow, Rect hintBounds, IUIAutomationElement automationElement)
         {
-            var supportedPatterns = automationElement.GetSupportedPatterns();
-            var programmaticNames = supportedPatterns.Select(x => x.ProgrammaticName);
+            // Enumerate all possible patterns. Note that the performance of this is *very* bad -- hence debug only.
+            var programmaticNames = new List<string>();
 
-            if (supportedPatterns.Any())
+            foreach (var pn in UiAutomationPatternIds.PatternNames)
+            {
+                try
+                {
+                    var pattern = automationElement.GetCurrentPattern(pn.Key);
+                    if(pattern != null)
+                    {
+                        programmaticNames.Add(pn.Value);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            if (programmaticNames.Any())
             {
                 return new DebugHint(owningWindow, hintBounds, programmaticNames.ToList());
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Tries to get the invoke pattern (if available)
-        /// </summary>
-        /// <param name="automationElement">The automation element to get the pattern from</param>
-        /// <param name="pattern">The pattern that was retrieved</param>
-        /// <returns>True if the pattern was retrieved, false otherwise</returns>
-        private bool TryGetInvokePattern(AutomationElement automationElement, out InvokePattern pattern)
-        {
-            object invokePattern;
-            if(automationElement.TryGetCurrentPattern(InvokePattern.Pattern, out invokePattern))
-            {
-                pattern = invokePattern as InvokePattern;
-                return pattern != null;
-            }
-
-            pattern = null;
-            return false;
         }
     }
 }

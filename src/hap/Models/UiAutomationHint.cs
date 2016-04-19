@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Automation;
+using UIAutomationClient;
 
 namespace hap.Models
 {
@@ -9,19 +9,13 @@ namespace hap.Models
     /// </summary>
     internal class UiAutomationHint : Hint
     {
-        private readonly InvokePattern _invokePattern;
+        private readonly IUIAutomationInvokePattern _invokePattern;
 
-        public UiAutomationHint(IntPtr owningWindow, AutomationElement automationElement, InvokePattern invokePattern, Rect boundingRectangle)
+        public UiAutomationHint(IntPtr owningWindow, IUIAutomationInvokePattern invokePattern, Rect boundingRectangle)
             : base(owningWindow, boundingRectangle)
         {
-            AutomationElement = automationElement;
             _invokePattern = invokePattern;
         }
-
-        /// <summary>
-        /// The underlying automation element
-        /// </summary>
-        public AutomationElement AutomationElement { get; private set; }
 
         public override void Invoke()
         {
