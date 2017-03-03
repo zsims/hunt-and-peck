@@ -6,7 +6,7 @@ namespace hap
     public class SingleLaunchMutex : IDisposable
     {
         private readonly bool _aquiredHandle;
-        private Mutex _mutex = new Mutex(true, "5B5486F3-15E3-4DD5-BF05-03C3F716483E");
+        private Mutex _mutex = new Mutex(true, "5B5486F3-15E3-4DD5-BF05-03C3F716483T");
 
         public SingleLaunchMutex()
         {

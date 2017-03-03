@@ -128,22 +128,30 @@ namespace hap.Services
         /// <param name="hintBounds">The hint bounds</param>
         /// <param name="automationElement">The associated automation element</param>
         /// <returns>The created hint, else null if the hint could not be created</returns>
-        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect hintBounds, IUIAutomationElement automationElement)
+        private Hint CreateHint(IntPtr owningWindow, Rect hintBounds, IUIAutomationElement automationElement)
         {
             try
             {
-                var pattern = (IUIAutomationInvokePattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_InvokePatternId);
-                if (pattern == null)
+                // Prefer invoke over the legacy pattern
+                var invokePattern = automationElement.GetCurrentPattern(UIA_PatternIds.UIA_InvokePatternId) as IUIAutomationInvokePattern;
+                if (invokePattern != null)
                 {
-                    return null;
+                    return new UiAutomationInvokeHint(owningWindow, invokePattern, hintBounds);
                 }
-                return new UiAutomationHint(owningWindow, pattern, hintBounds);
+
+                //var legacyPattern = automationElement.GetCurrentPattern(UIA_PatternIds.UIA_LegacyIAccessiblePatternId) as IUIAutomationLegacyIAccessiblePattern;
+                //if (legacyPattern != null)
+                //{
+                //    return new UiAutomationLegacyHint(owningWindow, legacyPattern, hintBounds);
+                //}
             }
             catch (Exception)
             {
                 // May have gone
                 return null;
             }
+
+            return null;
         }
 
         /// <summary>
