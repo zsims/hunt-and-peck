@@ -1,9 +1,8 @@
-﻿using Caliburn.Micro;
-using hap.Models;
+﻿using hap.Models;
 
 namespace hap.ViewModels
 {
-    public class DebugHintViewModel : PropertyChangedBase
+    public class DebugHintViewModel
     {
         public DebugHintViewModel(DebugHint hint)
         {

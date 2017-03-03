@@ -1,12 +1,12 @@
-﻿using Caliburn.Micro;
-
-namespace hap.ViewModels
+﻿namespace hap.ViewModels
 {
-    internal class OptionsViewModel : Screen
+    internal class OptionsViewModel
     {
         public OptionsViewModel()
         {
             DisplayName = "Options";
         }
+
+        public string DisplayName { get; set; }
     }
 }

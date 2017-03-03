@@ -1,16 +1,13 @@
-﻿using System.Windows.Input;
-using Caliburn.Micro;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Linq;
+using System.Collections.ObjectModel;
 using System.Windows;
 using hap.Models;
 using hap.Services.Interfaces;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using Screen = Caliburn.Micro.Screen;
 
 namespace hap.ViewModels
 {
-    internal class OverlayViewModel : Screen
+    internal class OverlayViewModel : NotifyPropertyChanged
     {
         private Rect _bounds;
         private ObservableCollection<HintViewModel> _hints = new ObservableCollection<HintViewModel>();
@@ -62,28 +59,28 @@ namespace hap.ViewModels
             }
         }
 
+        public Action CloseOverlay { get; set; }
+
         public string MatchString
         {
             set
             {
-                Hints.Apply(x => x.Active = false);
+                foreach (var x in Hints)
+                {
+                    x.Active = false;
+                }
 
                 var matching = Hints.Where(x => x.Label.StartsWith(value)).ToArray();
-                matching.Apply(x => x.Active = true);
+                foreach (var x in matching)
+                {
+                    x.Active = true;
+                }
 
                 if (matching.Count() == 1)
                 {
                     matching.First().Hint.Invoke();
-                    TryClose();
+                    CloseOverlay?.Invoke();
                 }
-            }
-        }
-
-        public void PreviewKey(KeyEventArgs args)
-        {
-            if (args.Key == Key.Escape)
-            {
-                TryClose();
             }
         }
     }

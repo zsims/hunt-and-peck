@@ -2,18 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        xmlns:cal="http://www.caliburnproject.org"
         Title="hap" Height="50" Width="50"
         Visibility="Hidden">
-    
     <tb:TaskbarIcon Visibility="Visible"
                     IconSource="/Resources/originalbird.ico"
                     MenuActivation="LeftOrRightClick">
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Options" cal:Message.Attach="Options()"></MenuItem>
+                <MenuItem Header="Options" Command="{Binding ShowOptionsCommand}"></MenuItem>
                 <Separator />
-                <MenuItem Header="Exit" cal:Message.Attach="Exit()"></MenuItem>
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}"></MenuItem>
             </ContextMenu>
         </tb:TaskbarIcon.ContextMenu>
     </tb:TaskbarIcon>

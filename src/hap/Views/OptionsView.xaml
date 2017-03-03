@@ -1,7 +1,6 @@
 ﻿<Window x:Class="hap.Views.OptionsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cal="http://www.caliburnproject.org"
         Title="OptionsView" Height="300" Width="300"
         WindowStartupLocation="CenterScreen">
     <TabControl TabStripPlacement="Left">
