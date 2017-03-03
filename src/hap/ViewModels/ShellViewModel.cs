@@ -1,66 +1,69 @@
 ﻿using System;
 using System.Windows.Forms;
-using Caliburn.Micro;
-using hap.Models;
 using hap.NativeMethods;
 using hap.Services.Interfaces;
 using Application = System.Windows.Application;
-using Screen = Caliburn.Micro.Screen;
 
 namespace hap.ViewModels
 {
-    internal class ShellViewModel : Screen
+    internal class ShellViewModel
     {
-        private readonly IKeyListenerService _keyListener;
-        private readonly Func<HintSession, OverlayViewModel> _overlayFactory;
-        private readonly Func<HintSession, DebugOverlayViewModel> _debugOverlayFactory;
+        private readonly Action<OverlayViewModel> _showOverlay;
+        private readonly Action<DebugOverlayViewModel> _showDebugOverlay;
+        private readonly Action<OptionsViewModel> _showOptions;
+        private readonly IHintLabelService _hintLabelService;
         private readonly IHintProviderService _hintProviderService;
         private readonly IDebugHintProviderService _debugHintProviderService;
-        private readonly IWindowManager _windowManager;
-        private readonly Func<OptionsViewModel> _optionsVmFactory;
 
         public ShellViewModel(
-            Func<HintSession, OverlayViewModel> overlayFactory,
-            Func<HintSession, DebugOverlayViewModel> debugOverlayFactory,
+            Action<OverlayViewModel> showOverlay,
+            Action<DebugOverlayViewModel> showDebugOverlay,
+            Action<OptionsViewModel> showOptions,
+            IHintLabelService hintLabelService,
             IHintProviderService hintProviderService,
             IDebugHintProviderService debugHintProviderService,
-            IWindowManager windowManager,
-            Func<OptionsViewModel> optionsVmFactory,
             IKeyListenerService keyListener)
         {
-            _overlayFactory = overlayFactory;
-            _debugOverlayFactory = debugOverlayFactory;
-            _keyListener = keyListener;
-            _windowManager = windowManager;
+            _showOverlay = showOverlay;
+            _showDebugOverlay = showDebugOverlay;
+            _showOptions = showOptions;
+            _hintLabelService = hintLabelService;
+            var keyListener1 = keyListener;
             _hintProviderService = hintProviderService;
             _debugHintProviderService = debugHintProviderService;
-            _optionsVmFactory = optionsVmFactory;
 
-            _keyListener.HotKey = new HotKey
+            keyListener1.HotKey = new HotKey
             {
                 Keys = Keys.OemSemicolon,
                 Modifier = KeyModifier.Alt
             };
 
 #if DEBUG
-            _keyListener.DebugHotKey = new HotKey
+            keyListener1.DebugHotKey = new HotKey
             {
                 Keys = Keys.OemSemicolon,
                 Modifier = KeyModifier.Alt | KeyModifier.Shift
             };
 #endif
 
-            _keyListener.OnHotKeyActivated += _keyListener_OnHotKeyActivated;
-            _keyListener.OnDebugHotKeyActivated += _keyListener_OnDebugHotKeyActivated;
+            keyListener1.OnHotKeyActivated += _keyListener_OnHotKeyActivated;
+            keyListener1.OnDebugHotKeyActivated += _keyListener_OnDebugHotKeyActivated;
+
+            ShowOptionsCommand = new DelegateCommand(ShowOptions);
+            ExitCommand = new DelegateCommand(Exit);
         }
+
+        public DelegateCommand ShowOptionsCommand { get; }
+        public DelegateCommand ExitCommand { get; }
 
         private void _keyListener_OnHotKeyActivated(object sender, EventArgs e)
         {
             var session = _hintProviderService.EnumHints();
             if (session != null)
             {
-                var vm = _overlayFactory(session);
-                _windowManager.ShowWindow(vm);
+
+                var vm = new OverlayViewModel(session, _hintLabelService);
+                _showOverlay(vm);
             }
         }
 
@@ -69,8 +72,8 @@ namespace hap.ViewModels
             var session = _debugHintProviderService.EnumDebugHints();
             if (session != null)
             {
-                var vm = _debugOverlayFactory(session);
-                _windowManager.ShowWindow(vm);
+                var vm = new DebugOverlayViewModel(session);
+                _showDebugOverlay(vm);
             }
         }
 
@@ -79,20 +82,10 @@ namespace hap.ViewModels
             Application.Current.Shutdown();
         }
 
-        public bool CanExit()
+        public void ShowOptions()
         {
-            return true;
-        }
-
-        public void Options()
-        {
-            var vm = _optionsVmFactory();
-            _windowManager.ShowWindow(vm);
-        }
-
-        public bool CanOptions()
-        {
-            return true;
+            var vm = new OptionsViewModel();
+            _showOptions(vm);
         }
     }
 }

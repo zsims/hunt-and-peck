@@ -9,7 +9,7 @@
     AllowsTransparency="True"
     FocusManager.FocusedElement="{Binding ElementName=MatchStringControl}"
     Loaded="OverlayView_OnLoaded"
-    cal:Message.Attach="[Event PreviewKeyDown] = [Action PreviewKey($eventArgs)]">
+    PreviewKeyDown="OverlayView_OnPreviewKeyDown">
     <local:ForegroundWindow.Resources>
         <Style x:Key="HintStyle" TargetType="TextBlock">
             <Setter Property="Background" Value="Yellow" />

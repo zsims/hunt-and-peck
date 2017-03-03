@@ -1,9 +1,8 @@
-﻿using Caliburn.Micro;
-using hap.Models;
+﻿using hap.Models;
 
 namespace hap.ViewModels
 {
-    public class HintViewModel : PropertyChangedBase
+    public class HintViewModel : NotifyPropertyChanged
     {
         private string _label;
         private bool _active;

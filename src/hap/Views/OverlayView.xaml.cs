@@ -32,5 +32,13 @@ namespace hap.Views
             Width = vm.Bounds.Width / scaleX;
             Height = vm.Bounds.Height / scaleY;
         }
+
+        private void OverlayView_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
     }
 }

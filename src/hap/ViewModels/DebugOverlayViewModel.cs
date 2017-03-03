@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using Caliburn.Micro;
 using hap.Models;
 using System.Linq;
 
 namespace hap.ViewModels
 {
-    public class DebugOverlayViewModel : Screen
+    public class DebugOverlayViewModel : NotifyPropertyChanged
     {
         private Rect _bounds;
 
@@ -30,6 +29,7 @@ namespace hap.ViewModels
             set
             {
                 _bounds = value;
+
                 NotifyOfPropertyChange();
             }
         }
