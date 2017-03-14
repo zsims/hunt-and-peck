@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using hap.NativeMethods;
 
 namespace hap.Views
@@ -13,23 +13,28 @@ namespace hap.Views
     public class ForegroundWindow : Window
     {
         private bool _closing;
+        private bool _initialized;
 
-        protected override void OnActivated(EventArgs e)
+        protected override void OnRender(DrawingContext drawingContext)
         {
-            // Always want this on top. SetForegroundWindow has a few conditions:
-            // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
-            ForceForeground();
-            base.OnActivated(e);
+            if (!_initialized)
+            {
+                // Always want this on top. SetForegroundWindow has a few conditions:
+                // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
+                ForceForeground();
+                _initialized = true;
+            }
+            base.OnRender(drawingContext);
         }
 
-        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        protected override void OnDeactivated(EventArgs e)
         {
             // We could have lost focus because we're already closing, make sure this doesn't call close twice
-            if (!_closing)
+            if (_initialized && !_closing)
             {
                 Close();
             }
-            base.OnLostKeyboardFocus(e);
+            base.OnDeactivated(e);
         }
 
         protected override void OnClosing(CancelEventArgs e)
