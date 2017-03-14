@@ -5,13 +5,13 @@ using UIAutomationClient;
 namespace hap.Models
 {
     /// <summary>
-    /// Represents a Windows UI Automation based hint
+    /// Represents a Windows UI Automation based invoke hint
     /// </summary>
-    internal class UiAutomationHint : Hint
+    internal class UiAutomationInvokeHint : Hint
     {
         private readonly IUIAutomationInvokePattern _invokePattern;
 
-        public UiAutomationHint(IntPtr owningWindow, IUIAutomationInvokePattern invokePattern, Rect boundingRectangle)
+        public UiAutomationInvokeHint(IntPtr owningWindow, IUIAutomationInvokePattern invokePattern, Rect boundingRectangle)
             : base(owningWindow, boundingRectangle)
         {
             _invokePattern = invokePattern;
