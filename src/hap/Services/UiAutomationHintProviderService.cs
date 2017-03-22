@@ -128,16 +128,47 @@ namespace hap.Services
         /// <param name="hintBounds">The hint bounds</param>
         /// <param name="automationElement">The associated automation element</param>
         /// <returns>The created hint, else null if the hint could not be created</returns>
-        private UiAutomationHint CreateHint(IntPtr owningWindow, Rect hintBounds, IUIAutomationElement automationElement)
+        private Hint CreateHint(IntPtr owningWindow, Rect hintBounds, IUIAutomationElement automationElement)
         {
             try
             {
-                var pattern = (IUIAutomationInvokePattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_InvokePatternId);
-                if (pattern == null)
+                var invokePattern = (IUIAutomationInvokePattern)automationElement.GetCurrentPattern(UIA_PatternIds.UIA_InvokePatternId);
+                if (invokePattern != null)
                 {
-                    return null;
+                    return new UiAutomationInvokeHint(owningWindow, invokePattern, hintBounds);
                 }
-                return new UiAutomationHint(owningWindow, pattern, hintBounds);
+
+                var togglePattern = (IUIAutomationTogglePattern)automationElement.GetCurrentPattern(UIA_PatternIds.UIA_TogglePatternId);
+                if (togglePattern != null)
+                {
+                    return new UiAutomationToggleHint(owningWindow, togglePattern, hintBounds);
+                }
+                
+                var selectPattern = (IUIAutomationSelectionItemPattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_SelectionItemPatternId);
+                if (selectPattern != null)
+                {
+                    return new UiAutomationSelectHint(owningWindow, selectPattern, hintBounds);
+                }
+
+                var expandCollapsePattern = (IUIAutomationExpandCollapsePattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId);
+                if (expandCollapsePattern != null)
+                {
+                    return new UiAutomationExpandCollapseHint(owningWindow, expandCollapsePattern, hintBounds);
+                }
+
+                var valuePattern = (IUIAutomationValuePattern)automationElement.GetCurrentPattern(UIA_PatternIds.UIA_ValuePatternId);
+                if (valuePattern != null && valuePattern.CurrentIsReadOnly == 0)
+                {
+                    return new UiAutomationFocusHint(owningWindow, automationElement, hintBounds);
+                }
+
+                var rangeValuePattern = (IUIAutomationRangeValuePattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_RangeValuePatternId);
+                if (rangeValuePattern != null && rangeValuePattern.CurrentIsReadOnly == 0)
+                {
+                    return new UiAutomationFocusHint(owningWindow, automationElement, hintBounds);
+                }
+                
+                return null;
             }
             catch (Exception)
             {

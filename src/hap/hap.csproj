@@ -90,7 +90,11 @@
     <Compile Include="Models\DebugHint.cs" />
     <Compile Include="Models\Hint.cs" />
     <Compile Include="Models\HintSession.cs" />
-    <Compile Include="Models\UiAutomationHint.cs" />
+    <Compile Include="Models\UiAutomationExpandCollapseHint.cs" />
+    <Compile Include="Models\UiAutomationFocusHint.cs" />
+    <Compile Include="Models\UiAutomationInvokeHint.cs" />
+    <Compile Include="Models\UiAutomationSelectHint.cs" />
+    <Compile Include="Models\UiAutomationToggleHint.cs" />
     <Compile Include="Services\HintLabelService.cs" />
     <Compile Include="Services\Interfaces\IDebugHintProviderService.cs" />
     <Compile Include="Services\Interfaces\IHintLabelService.cs" />
