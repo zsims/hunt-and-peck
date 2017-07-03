@@ -219,15 +219,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
-    <COMReference Include="UIAutomationClientPriv">
-      <Guid>{6271895B-E67F-4DEE-B68B-BF74ACE07753}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="UIAutomationCrossBitnessHookLib">
       <Guid>{8ACC2016-04A3-4343-B8E1-1870E35D6A41}</Guid>
       <VersionMajor>1</VersionMajor>
