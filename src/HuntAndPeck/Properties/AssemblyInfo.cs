@@ -7,7 +7,7 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WpfClient")]
+[assembly: AssemblyTitle("HuntAndPeck")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -37,3 +37,6 @@ using System.Windows;
     //(used if a resource is not found in the page, 
     // app, or any theme specific resource dictionaries)
 )]
+
+
+[assembly: InternalsVisibleTo("HuntAndPeck.Tests")]
