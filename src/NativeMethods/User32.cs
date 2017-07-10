@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace hap.NativeMethods
+namespace HuntAndPeck.NativeMethods
 {
     public static class User32
     {

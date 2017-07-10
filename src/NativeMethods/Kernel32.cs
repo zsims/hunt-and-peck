@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hap.NativeMethods
+namespace HuntAndPeck.NativeMethods
 {
     public static class Kernel32
     {

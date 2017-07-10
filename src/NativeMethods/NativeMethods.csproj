@@ -7,8 +7,8 @@
     <ProjectGuid>{556F1A03-8752-4C41-BB29-E7FA7FF68CD9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>hap.NativeMethods</RootNamespace>
-    <AssemblyName>hap.NativeMethods</AssemblyName>
+    <RootNamespace>HuntAndPeck.NativeMethods</RootNamespace>
+    <AssemblyName>HuntAndPeck.NativeMethods</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

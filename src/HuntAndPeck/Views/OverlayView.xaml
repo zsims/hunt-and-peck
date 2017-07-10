@@ -1,0 +1,60 @@
+﻿<local:ForegroundWindow
+    x:Class="HuntAndPeck.Views.OverlayView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:HuntAndPeck.Views"
+    WindowStyle="None"
+    ResizeMode="NoResize"
+    AllowsTransparency="True"
+    Topmost="True"
+    FocusManager.FocusedElement="{Binding ElementName=MatchStringControl}"
+    Loaded="OverlayView_OnLoaded"
+    PreviewKeyDown="OverlayView_OnPreviewKeyDown">
+    <local:ForegroundWindow.Resources>
+        <Style x:Key="HintStyle" TargetType="TextBlock">
+            <Setter Property="Background" Value="Yellow" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Active}" Value="false">
+                    <Setter Property="Background" Value="LightYellow" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </local:ForegroundWindow.Resources>
+    <local:ForegroundWindow.Background>
+        <SolidColorBrush Color="Transparent" />
+    </local:ForegroundWindow.Background>
+    <Grid x:Name="layoutGrid">
+        <TextBox x:Name="MatchStringControl" Text="{Binding MatchString, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" VerticalAlignment="Bottom" Background="Black" Foreground="White" />
+        <ItemsControl ItemsSource="{Binding Hints}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Top" Value="{Binding Hint.BoundingRectangle.Top}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Hint.BoundingRectangle.Left}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Rectangle Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}" Stroke="Red" StrokeDashArray="1 2">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="Yellow" Opacity="0.2" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Viewbox StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1 1 0 0" Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}">
+                            <TextBlock Text="{Binding Label}" FontFamily="Courier New" FontWeight="ExtraBold" FontSize="16" Style="{StaticResource HintStyle}">
+                            </TextBlock>
+                        </Viewbox>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        </Grid>
+</local:ForegroundWindow>
+

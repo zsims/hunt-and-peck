@@ -1,0 +1,48 @@
+﻿<local:ForegroundWindow
+    x:Class="HuntAndPeck.Views.DebugOverlayView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:HuntAndPeck.Views"
+    WindowStyle="None"
+    ResizeMode="NoResize"
+    AllowsTransparency="True"
+    Loaded="DebugOverlayView_OnLoaded">
+    <local:ForegroundWindow.Background>
+        <SolidColorBrush Color="Transparent" />
+    </local:ForegroundWindow.Background>
+    <Grid x:Name="layoutGrid">
+        <ItemsControl ItemsSource="{Binding Hints}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Top" Value="{Binding Hint.BoundingRectangle.Top}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Hint.BoundingRectangle.Left}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Rectangle Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}" Stroke="Red" StrokeDashArray="1 2">
+                            <Rectangle.Fill>
+                                <SolidColorBrush Color="GreenYellow" Opacity="0.2" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Viewbox StretchDirection="DownOnly" Margin="1 1 0 0" Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}">
+                            <TextBlock Text="{Binding ShortText}" FontFamily="Courier New" FontSize="12" Background="White" Foreground="Black">
+                            </TextBlock>
+                        </Viewbox>
+                        <Grid.ToolTip>
+                            <TextBlock Text="{Binding Text}" />
+                        </Grid.ToolTip>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        </Grid>
+</local:ForegroundWindow>
