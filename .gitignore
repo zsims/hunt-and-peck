@@ -196,3 +196,4 @@ FakesAssemblies/
 *.opt
 src/tools/*
 !src/tools/packages.config
+src/Dist

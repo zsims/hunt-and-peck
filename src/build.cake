@@ -36,12 +36,21 @@ Task("Test")
     });
 });
 
+Task("Package")
+    .IsDependentOn("Build")
+    .Does(() =>
+{
+    EnsureDirectoryExists("./Dist");
+    Zip(string.Format("./HuntAndPeck/bin/{0}", configuration), "./Dist/HuntAndPeck.zip");
+});
+
 Task("Default")
     .Does(() => {
     Information(@"
         Targets (run with -Target <target>)
         * Build - Build
         * Test  - Build + run tests
+        * Package - Build + package into Dist/
     ");
 });
 
