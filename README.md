@@ -5,8 +5,9 @@ Simple vimium/vimperator style navigation for Windows applications based on the 
 
 It works for any Windows program (excluding Modern UI apps :))
 
-# Builds
-See the continuous integration artifacts: https://ci.appveyor.com/project/zsims/hunt-and-peck/build/artifacts
+# Download
+
+https://github.com/zsims/hunt-and-peck/releases/tag/1.2
 
 # Screenshots
 
