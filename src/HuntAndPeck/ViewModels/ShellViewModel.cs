@@ -38,6 +38,12 @@ namespace HuntAndPeck.ViewModels
                 Modifier = KeyModifier.Alt
             };
 
+            keyListener1.TaskbarHotKey = new HotKey
+            {
+                Keys = Keys.OemSemicolon,
+                Modifier = KeyModifier.Control
+            };
+
 #if DEBUG
             keyListener1.DebugHotKey = new HotKey
             {
@@ -47,6 +53,7 @@ namespace HuntAndPeck.ViewModels
 #endif
 
             keyListener1.OnHotKeyActivated += _keyListener_OnHotKeyActivated;
+            keyListener1.OnTaskbarHotKeyActivated += _keyListener_OnTaskbarHotKeyActivated;
             keyListener1.OnDebugHotKeyActivated += _keyListener_OnDebugHotKeyActivated;
 
             ShowOptionsCommand = new DelegateCommand(ShowOptions);
@@ -61,7 +68,17 @@ namespace HuntAndPeck.ViewModels
             var session = _hintProviderService.EnumHints();
             if (session != null)
             {
+                var vm = new OverlayViewModel(session, _hintLabelService);
+                _showOverlay(vm);
+            }
+        }
 
+        private void _keyListener_OnTaskbarHotKeyActivated(object sender, EventArgs e)
+        {
+            var taskbarHWnd = User32.FindWindow("Shell_traywnd", "");
+            var session = _hintProviderService.EnumHints(taskbarHWnd);
+            if (session != null)
+            {
                 var vm = new OverlayViewModel(session, _hintLabelService);
                 _showOverlay(vm);
             }
