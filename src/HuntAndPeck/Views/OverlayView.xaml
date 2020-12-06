@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:HuntAndPeck.Views"
     WindowStyle="None"
     ResizeMode="NoResize"
+    ShowInTaskbar="False"
     AllowsTransparency="True"
     Topmost="True"
     FocusManager.FocusedElement="{Binding ElementName=MatchStringControl}"
