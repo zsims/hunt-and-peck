@@ -40,7 +40,7 @@ namespace HuntAndPeck.Services
             }
 
             // Note that shuffle is lazy evaluated. Sigh.
-            return hintStrings.Shuffle().ToList();
+            return hintStrings.ToList();
         }
 
         /// <summary>
