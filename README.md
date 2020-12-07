@@ -7,7 +7,7 @@ It works for any Windows program (excluding Modern UI apps :))
 
 # Download
 
-https://github.com/zsims/hunt-and-peck/releases/tag/release%2F1.4
+https://github.com/zsims/hunt-and-peck/releases/download/release%2F1.5/HuntAndPeck-1.5.zip
 
 # Screenshots
 
