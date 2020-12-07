@@ -17,7 +17,8 @@ https://github.com/zsims/hunt-and-peck/releases/tag/release%2F1.4
 ## To use
 
 1. Launch the executable.
-2. With any window focused, press Alt + ;
+2. With any window focused, press `Alt + ;`
+    - The tray can be highlighted with `Ctrl + ;`
 3. An overlay window will be displayed, type any of the hint characters you see.
 
 Alternatively, Hunt and Peck can be launched via the command-line or AutoHotKey by specifying `/hint`:
