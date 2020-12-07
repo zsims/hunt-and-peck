@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:HuntAndPeck.Views"
     WindowStyle="None"
     ResizeMode="NoResize"
+    ShowInTaskbar="False"
     AllowsTransparency="True"
     Topmost="True"
     FocusManager.FocusedElement="{Binding ElementName=MatchStringControl}"
@@ -24,7 +25,7 @@
         <SolidColorBrush Color="Transparent" />
     </local:ForegroundWindow.Background>
     <Grid x:Name="layoutGrid">
-        <TextBox x:Name="MatchStringControl" Text="{Binding MatchString, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" VerticalAlignment="Bottom" Background="Black" Foreground="White" />
+        <TextBox x:Name="MatchStringControl" Text="{Binding MatchString, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Width="50" VerticalAlignment="Bottom" Background="Transparent" Foreground="White" />
         <ItemsControl ItemsSource="{Binding Hints}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -44,11 +45,11 @@
                     <Grid>
                         <Rectangle Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}" Stroke="Red" StrokeDashArray="1 2">
                             <Rectangle.Fill>
-                                <SolidColorBrush Color="Yellow" Opacity="0.2" />
+                                <SolidColorBrush Color="Yellow" Opacity="0.05" />
                             </Rectangle.Fill>
                         </Rectangle>
                         <Viewbox StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1 1 0 0" Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}">
-                            <TextBlock Text="{Binding Label}" FontFamily="Courier New" FontWeight="ExtraBold" FontSize="16" Style="{StaticResource HintStyle}">
+                            <TextBlock Text="{Binding Label}" FontFamily="Courier New" FontWeight="ExtraBold" FontSize="14" Style="{StaticResource HintStyle}">
                             </TextBlock>
                         </Viewbox>
                     </Grid>
@@ -58,3 +59,4 @@
         </Grid>
 </local:ForegroundWindow>
 
+    

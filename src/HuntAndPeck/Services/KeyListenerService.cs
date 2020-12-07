@@ -8,6 +8,7 @@ namespace HuntAndPeck.Services
     internal class KeyListenerService : Form, IKeyListenerService, IDisposable
     {
         public event EventHandler OnHotKeyActivated;
+        public event EventHandler OnTaskbarHotKeyActivated;
         public event EventHandler OnDebugHotKeyActivated;
 
         /// <summary>
@@ -16,6 +17,7 @@ namespace HuntAndPeck.Services
         private int _hotkeyIdCounter = 0;
 
         private HotKey _hotKey;
+        private HotKey _taskbarHotKey;
         private HotKey _debugHotKey;
 
         /// <summary>
@@ -50,6 +52,23 @@ namespace HuntAndPeck.Services
             }
         }
 
+        /// <summary>
+        /// Gets/sets the current task bar hotkey
+        /// </summary>
+        /// <remarks>Changing this will cause the current hotkey to be unregistered</remarks>
+        public HotKey TaskbarHotKey
+        {
+            get
+            {
+                return _taskbarHotKey;
+            }
+            set
+            {
+                _taskbarHotKey = value;
+                ReRegisterHotKey(_taskbarHotKey);
+            }
+        }
+
         public HotKey DebugHotKey
         {
             get
@@ -76,6 +95,15 @@ namespace HuntAndPeck.Services
                     OnHotKeyActivated != null)
                 {
                     OnHotKeyActivated(this, new EventArgs());
+                }
+
+                // Task bar hotkey
+                if (_taskbarHotKey != null &&
+                    e.Key == _taskbarHotKey.Keys &&
+                    e.Modifiers == _taskbarHotKey.Modifier &&
+                    OnHotKeyActivated != null)
+                {
+                    OnTaskbarHotKeyActivated(this, new EventArgs());
                 }
 
                 // Debug hotkey

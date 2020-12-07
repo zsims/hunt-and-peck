@@ -13,5 +13,7 @@ namespace HuntAndPeck.Services.Interfaces
         /// </summary>
         /// <returns>The hint session containing the available hints or null if there is no foreground window</returns>
         HintSession EnumHints();
+
+        HintSession EnumHints(IntPtr handle);
     }
 }
