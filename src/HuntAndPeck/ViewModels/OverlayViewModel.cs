@@ -70,7 +70,7 @@ namespace HuntAndPeck.ViewModels
                     x.Active = false;
                 }
 
-                var matching = Hints.Where(x => x.Label.StartsWith(value)).ToArray();
+                var matching = Hints.Where(x => x.Label.StartsWith(value, StringComparison.OrdinalIgnoreCase)).ToArray();
                 foreach (var x in matching)
                 {
                     x.Active = true;
