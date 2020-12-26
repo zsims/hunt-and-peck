@@ -21,7 +21,10 @@ namespace HuntAndPeck.Views
             {
                 // Always want this on top. SetForegroundWindow has a few conditions:
                 // https://msdn.microsoft.com/en-us/library/ms633539(VS.85).aspx
-                ForceForeground();
+                if (!User32.SetForegroundWindow(new WindowInteropHelper(this).Handle))
+                {
+                    ForceForeground();
+                }
                 _initialized = true;
             }
             base.OnRender(drawingContext);
