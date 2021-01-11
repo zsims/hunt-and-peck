@@ -12,34 +12,42 @@ namespace HuntAndPeck.Services
         /// <summary>
         /// Gets available hint strings
         /// </summary>
-        /// <remarks>Adapted from vimium to give a consistent experience, see https://github.com/philc/vimium/blob/master/content_scripts/link_hints.coffee </remarks>
+        /// <remarks>Adapted from vimium to give a consistent experience, see https://github.com/philc/vimium/blob/master/content_scripts/link_hints.js </remarks>
         /// <param name="hintCount">The number of hints</param>
         /// <returns>A list of hint strings</returns>
         public IList<string> GetHintStrings(int hintCount)
         {
+            var hintStrings = new List<string>();
+            if (hintCount <= 0)
+            {
+                return hintStrings;
+            }
+
             var hintCharacters = new[] { 's', 'a', 'd', 'f', 'j', 'k', 'l', 'e', 'w', 'c', 'm', 'p', 'g', 'h' };
             var digitsNeeded = (int)Math.Ceiling(Math.Log(hintCount) / Math.Log(hintCharacters.Length));
 
-            var shortHintCount = Math.Floor((Math.Pow(hintCharacters.Length, digitsNeeded) - hintCount) / hintCharacters.Length);
+            var wholeHintCount = (int)Math.Pow(hintCharacters.Length, digitsNeeded);
+            var shortHintCount = (wholeHintCount - hintCount) / hintCharacters.Length;
             var longHintCount = hintCount - shortHintCount;
 
-            var hintStrings = new List<string>();
+            var longHintPrefixCount = wholeHintCount / hintCharacters.Length - shortHintCount;
+            for (int i = 0, j = 0; i < longHintCount; ++i, ++j)
+            {
+                hintStrings.Add(new string(NumberToHintString(j, hintCharacters, digitsNeeded).Reverse().ToArray()));
+                if (longHintPrefixCount > 0 && (i + 1) % longHintPrefixCount == 0)
+                {
+                    j += shortHintCount;
+                }
+            }
 
             if (digitsNeeded > 1)
             {
                 for (var i = 0; i < shortHintCount; ++i)
                 {
-                    hintStrings.Add(NumberToHintString(i, hintCharacters, digitsNeeded - 1));
+                    hintStrings.Add(new string(NumberToHintString(i + longHintPrefixCount, hintCharacters, digitsNeeded - 1).Reverse().ToArray()));
                 }
             }
 
-            var start = (int)(shortHintCount * hintCharacters.Length);
-            for (var i = start; i < (start + longHintCount); ++i)
-            {
-                hintStrings.Add(NumberToHintString(i, hintCharacters, digitsNeeded));
-            }
-
-            // Note that shuffle is lazy evaluated. Sigh.
             return hintStrings.ToList();
         }
 
@@ -47,7 +55,7 @@ namespace HuntAndPeck.Services
         /// Converts a number like "8" into a hint string like "JK". This is used to sequentially generate all of the
         /// hint text. The hint string will be "padded with zeroes" to ensure its length is >= numHintDigits.
         /// </summary>
-        /// <remarks>Adapted from vimium to give a consistent experience, see https://github.com/philc/vimium/blob/master/content_scripts/link_hints.coffee</remarks>
+        /// <remarks>Adapted from vimium to give a consistent experience, see https://github.com/philc/vimium/blob/master/content_scripts/link_hints.js</remarks>
         /// <param name="number">The number</param>
         /// <param name="characterSet">The set of characters</param>
         /// <param name="noHintDigits">The number of hint digits</param>
