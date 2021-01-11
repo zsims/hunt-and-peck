@@ -3,6 +3,7 @@ using HuntAndPeck.ViewModels;
 using System.Linq;
 using HuntAndPeck.Services;
 using HuntAndPeck.Views;
+using HuntAndPeck.NativeMethods;
 
 namespace HuntAndPeck
 {
@@ -50,6 +51,17 @@ namespace HuntAndPeck
             {
                 // support headless mode
                 var session = _hintProviderService.EnumHints();
+                var overlayWindow = new OverlayView()
+                {
+                    DataContext = new OverlayViewModel(session, _hintLabelService)
+                };
+                overlayWindow.Show();
+            }
+            else if (e.Args.Contains("/tray"))
+            {
+                // support headless tray mode
+                var taskbarHWnd = User32.FindWindow("Shell_traywnd", "");
+                var session = _hintProviderService.EnumHints(taskbarHWnd);
                 var overlayWindow = new OverlayView()
                 {
                     DataContext = new OverlayViewModel(session, _hintLabelService)
