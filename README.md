@@ -7,7 +7,7 @@ It works for any Windows program (excluding Modern UI apps :))
 
 # Download
 
-https://github.com/zsims/hunt-and-peck/releases/download/release%2F1.5/HuntAndPeck-1.5.zip
+https://github.com/zsims/hunt-and-peck/releases/download/release%2F1.6/HuntAndPeck-1.6.zip
 
 # Screenshots
 
@@ -24,6 +24,11 @@ https://github.com/zsims/hunt-and-peck/releases/download/release%2F1.5/HuntAndPe
 Alternatively, Hunt and Peck can be launched via the command-line or AutoHotKey by specifying `/hint`:
 ```
 hap.exe /hint
+```
+
+Or in tray mode with
+```
+hap.exe /tray
 ```
 
 # Supported Elements
