@@ -1,19 +1,24 @@
 ﻿using System;
+using System.Windows;
 using HuntAndPeck.Models;
+using UIAutomationClient;
 
 namespace HuntAndPeck.Services.Interfaces
 {
     /// <summary>
-    /// Provides hints for the entire desktop or a given window handle
+    /// Provide basic hint creation method
     /// </summary>
-    public interface IHintProviderService
+    /// <typeparam name="THint">Specific Hint class implementation</typeparam>
+    public interface IHintProviderService<THint>
+        where THint : Hint
     {
         /// <summary>
-        /// Enumerate the available hints for the current foreground window
+        /// Creates a UI Automation element from the given automation element
         /// </summary>
-        /// <returns>The hint session containing the available hints or null if there is no foreground window</returns>
-        HintSession EnumHints();
-
-        HintSession EnumHints(IntPtr handle);
+        /// <param name="owningWindow">The owning window</param>
+        /// <param name="hintBounds">The hint bounds</param>
+        /// <param name="automationElement">The associated automation element</param>
+        /// <returns>The created hint, else null if the hint could not be cre
+        THint CreateHint(IntPtr owningWindow, Rect hintBounds, IUIAutomationElement automationElement);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using HuntAndPeck.Services;
 using HuntAndPeck.Views;
 using HuntAndPeck.NativeMethods;
+using HuntAndPeck.Extensions;
 
 namespace HuntAndPeck
 {
@@ -13,7 +14,8 @@ namespace HuntAndPeck
     public partial class App : Application
     {
         private readonly SingleLaunchMutex _singleLaunchMutex = new SingleLaunchMutex();
-        private readonly UiAutomationHintProviderService _hintProviderService = new UiAutomationHintProviderService();
+        private readonly GeneralHintProviderService _generalHintProviderService = new GeneralHintProviderService();
+        private readonly DebugHintProviderService _debugHintProviderService = new DebugHintProviderService();
         private readonly HintLabelService _hintLabelService = new HintLabelService();
         private KeyListenerService _keyListenerService;
 
@@ -50,7 +52,7 @@ namespace HuntAndPeck
             if (e.Args.Contains("/hint"))
             {
                 // support headless mode
-                var session = _hintProviderService.EnumHints();
+                var session = _generalHintProviderService.EnumHints();
                 var overlayWindow = new OverlayView()
                 {
                     DataContext = new OverlayViewModel(session, _hintLabelService)
@@ -61,7 +63,7 @@ namespace HuntAndPeck
             {
                 // support headless tray mode
                 var taskbarHWnd = User32.FindWindow("Shell_traywnd", "");
-                var session = _hintProviderService.EnumHints(taskbarHWnd);
+                var session = _generalHintProviderService.EnumHints(taskbarHWnd);
                 var overlayWindow = new OverlayView()
                 {
                     DataContext = new OverlayViewModel(session, _hintLabelService)
@@ -85,8 +87,8 @@ namespace HuntAndPeck
                     ShowDebugOverlay,
                     ShowOptions,
                     _hintLabelService,
-                    _hintProviderService,
-                    _hintProviderService,
+                    _generalHintProviderService,
+                    _debugHintProviderService,
                     _keyListenerService);
 
                 var shellView = new ShellView

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using HuntAndPeck.Extensions;
+using HuntAndPeck.Models;
 using HuntAndPeck.NativeMethods;
 using HuntAndPeck.Services.Interfaces;
 using Application = System.Windows.Application;
@@ -12,16 +14,16 @@ namespace HuntAndPeck.ViewModels
         private readonly Action<DebugOverlayViewModel> _showDebugOverlay;
         private readonly Action<OptionsViewModel> _showOptions;
         private readonly IHintLabelService _hintLabelService;
-        private readonly IHintProviderService _hintProviderService;
-        private readonly IDebugHintProviderService _debugHintProviderService;
+        private readonly IHintProviderService<Hint> _hintProviderService;
+        private readonly IHintProviderService<DebugHint> _debugHintProviderService;
 
         public ShellViewModel(
             Action<OverlayViewModel> showOverlay,
             Action<DebugOverlayViewModel> showDebugOverlay,
             Action<OptionsViewModel> showOptions,
             IHintLabelService hintLabelService,
-            IHintProviderService hintProviderService,
-            IDebugHintProviderService debugHintProviderService,
+            IHintProviderService<Hint> hintProviderService,
+            IHintProviderService<DebugHint> debugHintProviderService,
             IKeyListenerService keyListener)
         {
             _showOverlay = showOverlay;
@@ -86,7 +88,7 @@ namespace HuntAndPeck.ViewModels
 
         private void _keyListener_OnDebugHotKeyActivated(object sender, EventArgs e)
         {
-            var session = _debugHintProviderService.EnumDebugHints();
+            var session = _debugHintProviderService.EnumHints();
             if (session != null)
             {
                 var vm = new DebugOverlayViewModel(session);
