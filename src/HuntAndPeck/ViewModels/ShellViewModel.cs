@@ -32,11 +32,15 @@ namespace HuntAndPeck.ViewModels
             _hintProviderService = hintProviderService;
             _debugHintProviderService = debugHintProviderService;
 
+            //get hotkeys from AppData if possible. If not available, then from local directory
+
             keyListener1.HotKey = new HotKey
             {                
                 Keys = Properties.Settings.Default.myHotkey,
                 Modifier = Properties.Settings.Default.myModifiers
-            };            
+            };
+
+            Properties.Settings.Default.Save();
 
             keyListener1.TaskbarHotKey = new HotKey
             {
