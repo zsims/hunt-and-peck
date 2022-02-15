@@ -1,7 +1,24 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HuntAndPeck.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="myModifiers" Type="HuntAndPeck.NativeMethods.KeyModifier" Scope="User">
+      <Value Profile="(Default)">Alt</Value>
+    </Setting>
+    <Setting Name="myTaskbarModifiers" Type="HuntAndPeck.NativeMethods.KeyModifier" Scope="User">
+      <Value Profile="(Default)">Control</Value>
+    </Setting>
+    <Setting Name="myDebugModifiers" Type="HuntAndPeck.NativeMethods.KeyModifier" Scope="User">
+      <Value Profile="(Default)">Alt, Shift</Value>
+    </Setting>
+    <Setting Name="myHotkey" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">Oem1</Value>
+    </Setting>
+    <Setting Name="myTaskbarHotkey" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">Oem1</Value>
+    </Setting>
+    <Setting Name="myDebugHotkey" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">Oem1</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

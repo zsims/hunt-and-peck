@@ -33,22 +33,22 @@ namespace HuntAndPeck.ViewModels
             _debugHintProviderService = debugHintProviderService;
 
             keyListener1.HotKey = new HotKey
-            {
-                Keys = Keys.OemSemicolon,
-                Modifier = KeyModifier.Alt
-            };
+            {                
+                Keys = Properties.Settings.Default.myHotkey,
+                Modifier = Properties.Settings.Default.myModifiers
+            };            
 
             keyListener1.TaskbarHotKey = new HotKey
             {
-                Keys = Keys.OemSemicolon,
-                Modifier = KeyModifier.Control
+                Keys = Properties.Settings.Default.myTaskbarHotkey,
+                Modifier = Properties.Settings.Default.myTaskbarModifiers
             };
 
 #if DEBUG
             keyListener1.DebugHotKey = new HotKey
             {
-                Keys = Keys.OemSemicolon,
-                Modifier = KeyModifier.Alt | KeyModifier.Shift
+                Keys = Properties.Settings.Default.myDebugHotkey,
+                Modifier = Properties.Settings.Default.myDebugModifiers
             };
 #endif
 
@@ -62,6 +62,11 @@ namespace HuntAndPeck.ViewModels
 
         public DelegateCommand ShowOptionsCommand { get; }
         public DelegateCommand ExitCommand { get; }
+
+        private void refresh_Hotkeys() // invert control to inject hotkeys from xml file
+        {
+            //ShellViewModel.setHotkey();
+        }
 
         private void _keyListener_OnHotKeyActivated(object sender, EventArgs e)
         {
@@ -104,5 +109,5 @@ namespace HuntAndPeck.ViewModels
             var vm = new OptionsViewModel();
             _showOptions(vm);
         }
-    }
+    }    
 }
