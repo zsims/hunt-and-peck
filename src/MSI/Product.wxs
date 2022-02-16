@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="HuntAndPeck" Language="1033" Version="1.0.0.0" Manufacturer="HuntAndPeck" UpgradeCode="e47f0958-e969-481b-af24-6df49fd45ca7">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate />
+
+    <Feature Id="ProductFeature" Title="HuntAndPeck" Level="1">
+      <?if $(sys.BUILDARCH)=x86?>
+      <!--<ComponentGroupRef Id="StartMenuComponents"/> -->
+      <!--#todo-->
+      <!--<ComponentGroupRef Id="Settings"/> -->
+      <!--#todo-->
+      <?endif ?>
+      <ComponentGroupRef Id="Componentsx86" />
+      <ComponentGroupRef Id="Componentsx64"/>
+    </Feature>
+
+    <InstallExecuteSequence>
+      <!--When MSI is 32 bit-->
+      <?if $(sys.BUILDARCH)=x86?>
+      <?endif?>
+    </InstallExecuteSequence>
+  </Product>
+
+  <!--Directory Structure-->
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDERx86" Name="HuntAndPeck" />
+      </Directory>
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDERx64" Name="HuntAndPeck">
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Componentsx86" Directory="INSTALLFOLDERx86">
+      <Component Id="HAPx86" Guid="{36C49F2D-4984-48DC-9EFF-B7FDA3BEFDC2}">
+        <File Id="HAPx86EXE" Source="..\HuntAndPeck\bin\Release\hap.exe" KeyPath="yes"/>
+      </Component>
+      <Component Id="CONFIGx86" Guid="{C26B82BA-5932-45B0-9C04-45F4DB217CDA}">
+        <File Id="HAPx86CONFIG" Source="..\HuntAndPeck\bin\Release\hap.exe.config" KeyPath="yes"/>
+      </Component>
+      <Component Id="TASKBARNOTIFICATIONx86" Guid="{A4EBC175-73E2-4E73-A36B-40150F8E5F1C}">
+        <File Id="TASKBARNOTIFICATIONx86DLL" Source="..\HuntAndPeck\bin\Release\Hardcodet.Wpf.TaskbarNotification.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="NATIVEMETHODSx86" Guid="{18C84E52-676F-4CE2-B4AC-E9E2E6C94C5B}">
+        <File Id="NATIVEMETHODSx86DLL" Source="..\HuntAndPeck\bin\Release\HuntAndPeck.NativeMethods.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="UIAUTOMATIONCLIENTx86" Guid="{1FB81928-DF06-4A87-A2B1-495F0A85A66B}">
+        <File Id="UIAUTOMATIONCLIENTx86DLL" Source="..\HuntAndPeck\bin\Release\Interop.UIAutomationClient.dll" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="Componentsx64" Directory="INSTALLFOLDERx64">
+    </ComponentGroup>
+  </Fragment>
+</Wix>
