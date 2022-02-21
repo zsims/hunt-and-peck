@@ -11,13 +11,13 @@
     <Setting Name="myDebugModifiers" Type="HuntAndPeck.NativeMethods.KeyModifier" Scope="User">
       <Value Profile="(Default)">Alt, Shift</Value>
     </Setting>
-    <Setting Name="myHotkey" Type="System.Windows.Forms.Keys" Scope="User">
-      <Value Profile="(Default)">Oem1</Value>
-    </Setting>
     <Setting Name="myTaskbarHotkey" Type="System.Windows.Forms.Keys" Scope="User">
       <Value Profile="(Default)">Oem1</Value>
     </Setting>
     <Setting Name="myDebugHotkey" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">Oem1</Value>
+    </Setting>
+    <Setting Name="myHotkey" GenerateDefaultValueInCode="false" Type="System.Windows.Forms.Keys" Scope="User">
       <Value Profile="(Default)">Oem1</Value>
     </Setting>
   </Settings>

@@ -62,18 +62,6 @@ namespace HuntAndPeck.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Oem1")]
-        public global::System.Windows.Forms.Keys myHotkey {
-            get {
-                return ((global::System.Windows.Forms.Keys)(this["myHotkey"]));
-            }
-            set {
-                this["myHotkey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Oem1")]
         public global::System.Windows.Forms.Keys myTaskbarHotkey {
             get {
                 return ((global::System.Windows.Forms.Keys)(this["myTaskbarHotkey"]));
@@ -92,6 +80,17 @@ namespace HuntAndPeck.Properties {
             }
             set {
                 this["myDebugHotkey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Windows.Forms.Keys myHotkey {
+            get {
+                return ((global::System.Windows.Forms.Keys)(this["myHotkey"]));
+            }
+            set {
+                this["myHotkey"] = value;
             }
         }
     }
