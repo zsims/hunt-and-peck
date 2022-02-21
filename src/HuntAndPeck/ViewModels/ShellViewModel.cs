@@ -56,8 +56,7 @@ namespace HuntAndPeck.ViewModels
                 Keys = Properties.Settings.Default.myDebugHotkey,
                 Modifier = Properties.Settings.Default.myDebugModifiers
             };
-#endif
-            Properties.Settings.Default.Save();
+#endif      
 
             keyListener1.OnHotKeyActivated += _keyListener_OnHotKeyActivated;
             keyListener1.OnTaskbarHotKeyActivated += _keyListener_OnTaskbarHotKeyActivated;
