@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 
 namespace HuntAndPeck.NativeMethods
 {
+    // https://stackoverflow.com/questions/61144651
     [Flags]
     public enum KeyModifier
     {
