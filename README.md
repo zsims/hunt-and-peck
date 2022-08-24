@@ -5,6 +5,8 @@ Simple vimium/vimperator style navigation for Windows applications based on the 
 
 It works for any Windows program (excluding Modern UI apps :))
 
+NOTE: hunt-n-peck is no longer maintained, please consider one of the various forks.
+
 # Download
 
 https://github.com/zsims/hunt-and-peck/releases/download/release%2F1.6/HuntAndPeck-1.6.zip
