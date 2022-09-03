@@ -22,8 +22,8 @@ namespace HuntAndPeck.Services
             {
                 return hintStrings;
             }
-
-            var hintCharacters = new[] { 'S', 'A', 'D', 'F', 'J', 'K', 'L', 'E', 'W', 'C', 'M', 'P', 'G', 'H' };
+            
+            var hintCharacters = new[] { 'S', 'A', 'D', 'F', 'J', 'K', 'L', 'E', 'I', 'B', 'W', 'O', 'T', 'U', 'Y', 'R', 'Q', 'C', 'V', 'N', 'C', 'M', 'P', 'G', 'H', 'X', 'Z' }; // #todo consider adding []\;',./`
             var digitsNeeded = (int)Math.Ceiling(Math.Log(hintCount) / Math.Log(hintCharacters.Length));
 
             var wholeHintCount = (int)Math.Pow(hintCharacters.Length, digitsNeeded);

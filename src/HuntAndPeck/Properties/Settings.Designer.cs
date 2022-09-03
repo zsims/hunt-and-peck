@@ -12,7 +12,7 @@ namespace HuntAndPeck.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -20,6 +20,77 @@ namespace HuntAndPeck.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt")]
+        public global::HuntAndPeck.NativeMethods.KeyModifier myModifiers {
+            get {
+                return ((global::HuntAndPeck.NativeMethods.KeyModifier)(this["myModifiers"]));
+            }
+            set {
+                this["myModifiers"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Control")]
+        public global::HuntAndPeck.NativeMethods.KeyModifier myTaskbarModifiers {
+            get {
+                return ((global::HuntAndPeck.NativeMethods.KeyModifier)(this["myTaskbarModifiers"]));
+            }
+            set {
+                this["myTaskbarModifiers"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt, Shift")]
+        public global::HuntAndPeck.NativeMethods.KeyModifier myDebugModifiers {
+            get {
+                return ((global::HuntAndPeck.NativeMethods.KeyModifier)(this["myDebugModifiers"]));
+            }
+            set {
+                this["myDebugModifiers"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Oem1")]
+        public global::System.Windows.Forms.Keys myTaskbarHotkey {
+            get {
+                return ((global::System.Windows.Forms.Keys)(this["myTaskbarHotkey"]));
+            }
+            set {
+                this["myTaskbarHotkey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Oem1")]
+        public global::System.Windows.Forms.Keys myDebugHotkey {
+            get {
+                return ((global::System.Windows.Forms.Keys)(this["myDebugHotkey"]));
+            }
+            set {
+                this["myDebugHotkey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Windows.Forms.Keys myHotkey {
+            get {
+                return ((global::System.Windows.Forms.Keys)(this["myHotkey"]));
+            }
+            set {
+                this["myHotkey"] = value;
             }
         }
     }

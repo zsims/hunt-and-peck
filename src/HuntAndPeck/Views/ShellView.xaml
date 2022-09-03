@@ -9,9 +9,9 @@
                     MenuActivation="LeftOrRightClick">
         <tb:TaskbarIcon.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Options" Command="{Binding ShowOptionsCommand}"></MenuItem>
+                <MenuItem Header="O_ptions" Command="{Binding ShowOptionsCommand}"></MenuItem>
                 <Separator />
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}"></MenuItem>
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}"></MenuItem>
             </ContextMenu>
         </tb:TaskbarIcon.ContextMenu>
     </tb:TaskbarIcon>

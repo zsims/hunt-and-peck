@@ -33,5 +33,11 @@ Or in tray mode with
 hap.exe /tray
 ```
 
+## To customize
+
+Hotkeys can be found at and modified at %AppData%\\Local\\HuntAndPeck\\[VERSION NUMBER]\\user.config.xml
+
+Please supply a [key code](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.keys?view=windowsdesktop-6.0) and one or more modifier keys Alt, Control, Shift, Windows.  Seperate them with a comma as seen here.  
+
 # Supported Elements
 Only UI Automation elements with "Invoke" patterns are supported (and displayed).
