@@ -9,7 +9,7 @@ NOTE: hunt-n-peck is no longer maintained, please consider one of the various fo
 
 # Download
 
-https://github.com/zsims/hunt-and-peck/releases/download/release%2F1.6/HuntAndPeck-1.6.zip
+https://github.com/adrianhajdukiewicz1/hunt-and-peck/releases/download/release%2F1.7/HuntAndPeck-1.7.zip
 
 # How to change font size
 
