@@ -3,5 +3,9 @@
   <Profiles>
     <Profile Name="(Default)" />
   </Profiles>
-  <Settings />
+  <Settings>
+    <Setting Name="FontSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">14</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
