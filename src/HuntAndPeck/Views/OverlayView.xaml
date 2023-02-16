@@ -49,7 +49,7 @@
                             </Rectangle.Fill>
                         </Rectangle>-->
                         <Viewbox StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1 1 0 0" Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}">
-                            <TextBlock Text="{Binding Label}" FontFamily="Helvetica, Arial" FontWeight="Bold" FontSize="12" Style="{StaticResource HintStyle}">
+                            <TextBlock Text="{Binding Label}" FontFamily="Helvetica, Arial" FontWeight="Bold" FontSize="{Binding FontSizeReadValue}" Style="{StaticResource HintStyle}">
                             </TextBlock>
                         </Viewbox>
                     </Grid>
