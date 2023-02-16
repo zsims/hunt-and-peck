@@ -11,6 +11,10 @@ NOTE: hunt-n-peck is no longer maintained, please consider one of the various fo
 
 https://github.com/zsims/hunt-and-peck/releases/download/release%2F1.6/HuntAndPeck-1.6.zip
 
+# How to change font size
+
+Find the application icon in tray, click right mouse button, select `Options`, then use the `FontSize` menu to change the font size.
+
 # Screenshots
 
 ![ScreenShot](https://raw.github.com/zsims/hunt-n-peck/master/screenshots/explorer.png)
