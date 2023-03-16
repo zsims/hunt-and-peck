@@ -1,8 +1,19 @@
 ﻿<Window x:Class="HuntAndPeck.Views.OptionsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="OptionsView" Height="300" Width="300"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style  x:Key="ColorPickerStyle"    TargetType="xctk:ColorPicker">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
+            <Setter Property="DropDownBackground" Value="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
+            <Setter Property="HeaderBackground" Value="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
+            <Setter Property="TabBackground" Value="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"/>
+            <Setter Property="HeaderForeground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="TabForeground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        </Style>
+    </Window.Resources>
     <TabControl TabStripPlacement="Left">
         <TabItem Header="Overlay">
             <TabItem.Content>
@@ -14,12 +25,31 @@
             </TabItem.Content>
         </TabItem>
         <TabItem Header="Keyboard">
-            <TabItem.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                </Grid>
+            <TabItem.Content >
+                <StackPanel>
+                    <Label Content="Window Shortcut"></Label>
+                    <Grid>
+                        <TextBox Name="tBKbdShortWin" Focusable="False" Text="{Binding KbdShortWin}"
+                                 PreviewKeyDown="TbKbdShort_PreviewKeyDown"
+                                 LostFocus="TbKbdShort_LostFocus"
+                                 Width="200" Padding="0,0,30,0" Height="30" FontSize="14"/>
+                        <Button  Name ="btnKbdShortWin" 
+                                 Click="BtnKbdShortWin_Click"  Width="75" Height="22" HorizontalAlignment="Right" Margin="0,0,5,0">
+                            Change
+                        </Button>
+                    </Grid>
+                        <Label Content="Tray Shortcut"></Label>
+                    <Grid>
+                        <TextBox Name="tBKbdShortTray" Focusable="False" Text="{Binding KbdShortTray}"
+                                 PreviewKeyDown="TbKbdShort_PreviewKeyDown"
+                                 LostFocus="TbKbdShort_LostFocus"
+                                 Width="200" Padding="0,0,30,0" Height="30" FontSize="14"/>
+                        <Button Name ="btnKbdShortTray" 
+                                Click="BtnKbdShortTray_Click" Width="75" Height="22" HorizontalAlignment="Right" Margin="0,0,5,0">
+                            Change
+                        </Button>
+                    </Grid>
+                </StackPanel>
             </TabItem.Content>
         </TabItem>
         <TabItem Header="FontSize">
@@ -47,6 +77,20 @@
                     </ComboBox>
                 </StackPanel>
             </TabItem.Content>
+        </TabItem>
+        <TabItem Header="Colors">
+                <TabItem.Content>
+                    <StackPanel>
+                        <Label Content="Font Backround Color"></Label>
+                        <xctk:ColorPicker
+                            Style="{StaticResource ColorPickerStyle}"
+                            SelectedColor="{Binding FontBackroundColor}"/>
+                    <Label Content="Font Color"></Label>
+                    <xctk:ColorPicker
+                            Style="{StaticResource ColorPickerStyle}"
+                            SelectedColor="{Binding FontColor}"/>
+                </StackPanel>
+                </TabItem.Content>
         </TabItem>
     </TabControl>
 </Window>

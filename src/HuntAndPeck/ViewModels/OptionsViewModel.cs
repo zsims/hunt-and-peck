@@ -1,17 +1,24 @@
 ﻿using HuntAndPeck.Properties;
+using HuntAndPeck.Services.Interfaces;
 using System;
 using System.ComponentModel;
-using System.Windows;
+using System.Windows.Media;
 
 namespace HuntAndPeck.ViewModels
 {
     internal class OptionsViewModel : INotifyPropertyChanged
     {
-        public OptionsViewModel()
+        private readonly IKeyListenerService _keyListenerService;
+        public OptionsViewModel(IKeyListenerService keyListenerService)
         {
+            _keyListenerService = keyListenerService;
             DisplayName = "Options";
             FontSize = Settings.Default.FontSize;
-            Settings.Default.PropertyChanged += OnSettingsPropertyChanged;
+            FontBackroundColor = Settings.Default.FontBackroundColor;
+            FontColor= Settings.Default.FontColor;
+            KbdShortWin = Settings.Default.KbdShortWin;
+            KbdShortTray = Settings.Default.KbdShortTray;
+            //Settings.Default.PropertyChanged += OnSettingsPropertyChanged;
         }
 
         public string DisplayName { get; set; }
@@ -34,14 +41,98 @@ namespace HuntAndPeck.ViewModels
             }
         }
 
-
-        private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private Color _fontBackroundColor;
+        public Color FontBackroundColor
         {
-            if (e.PropertyName == "FontSize")
+            get { return _fontBackroundColor; }
+            set
             {
-                FontSize = Settings.Default.FontSize;
+                if (_fontBackroundColor != value)
+                {
+                    _fontBackroundColor = value;
+                    OnPropertyChanged("FontBackroundColor");
+                    Settings.Default.FontBackroundColor = value;
+                    Settings.Default.Save();
+                }
             }
         }
+
+        private Color _fontColor;
+        public Color FontColor
+        {
+            get { return _fontColor; }
+            set
+            {
+                if (_fontColor != value)
+                {
+                    _fontColor = value;
+                    OnPropertyChanged("FontColor");
+                    Settings.Default.FontColor = value;
+                    Settings.Default.Save();
+                }
+            }
+        }
+
+        private String _kbdShortWin;
+        public String KbdShortWin
+        {
+            get { return _kbdShortWin; }
+            set
+            {
+                if (_kbdShortWin != value)
+                {
+                    if (!value.Contains("+")) value = "Alt+Oem1";
+                    _kbdShortWin = value;
+                    OnPropertyChanged("KbdShortWin");
+                    Settings.Default.KbdShortWin = value;
+                    Settings.Default.Save();
+                    _keyListenerService.HotKey = new HotKey(Settings.Default.KbdShortWin);
+                }
+            }
+        }
+
+        private String _kbdShortTray;
+        public String KbdShortTray
+        {
+            get { return _kbdShortTray; }
+            set
+            {
+                if (_kbdShortTray != value)
+                {
+                    if (!value.Contains("+")) value = "Ctrl+Oem1";
+                    _kbdShortTray = value;
+                    OnPropertyChanged("KbdShortTray");
+                    Settings.Default.KbdShortTray = value;
+                    Settings.Default.Save();
+                    _keyListenerService.TaskbarHotKey = new HotKey(Settings.Default.KbdShortTray);
+
+                }
+            }
+        }
+
+        //private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == "FontSize")
+        //    {
+        //        FontSize = Settings.Default.FontSize;
+        //    }
+        //    if (e.PropertyName == "FontBackroundColor")
+        //    { 
+        //       FontBackroundColor = Settings.Default.FontBackroundColor;
+        //    }
+        //    if (e.PropertyName == "FontColor")
+        //    {
+        //        FontColor = Settings.Default.FontColor;
+        //    }
+        //    if (e.PropertyName == "KbdShortWin")
+        //    {
+        //        KbdShortWin = Settings.Default.KbdShortWin;
+        //    }
+        //    if (e.PropertyName == "KbdShorTray")
+        //    {
+        //        KbdShortTray = Settings.Default.KbdShortTray;
+        //    }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 

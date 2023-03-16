@@ -1,11 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HuntAndPeck.Properties" GeneratedClassName="Settings">
+  <Profiles />
   <Settings>
     <Setting Name="FontSize" Type="System.String" Scope="User">
       <Value Profile="(Default)">14</Value>
+    </Setting>
+    <Setting Name="FontBackroundColor" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FFFAD500</Value>
+    </Setting>
+    <Setting Name="FontColor" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FF000000</Value>
+    </Setting>
+    <Setting Name="KbdShortWin" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt+Oem1</Value>
+    </Setting>
+    <Setting Name="KbdShortTray" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Ctrl+Oem1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

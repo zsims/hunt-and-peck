@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Forms;
 using HuntAndPeck.NativeMethods;
+using HuntAndPeck.Properties;
 using HuntAndPeck.Services.Interfaces;
 using Application = System.Windows.Application;
 
@@ -14,6 +14,7 @@ namespace HuntAndPeck.ViewModels
         private readonly IHintLabelService _hintLabelService;
         private readonly IHintProviderService _hintProviderService;
         private readonly IDebugHintProviderService _debugHintProviderService;
+        private readonly IKeyListenerService _keyListener1;
 
         public ShellViewModel(
             Action<OverlayViewModel> showOverlay,
@@ -28,33 +29,20 @@ namespace HuntAndPeck.ViewModels
             _showDebugOverlay = showDebugOverlay;
             _showOptions = showOptions;
             _hintLabelService = hintLabelService;
-            var keyListener1 = keyListener;
+            _keyListener1 = keyListener;
             _hintProviderService = hintProviderService;
             _debugHintProviderService = debugHintProviderService;
 
-            keyListener1.HotKey = new HotKey
-            {
-                Keys = Keys.OemSemicolon,
-                Modifier = KeyModifier.Alt
-            };
-
-            keyListener1.TaskbarHotKey = new HotKey
-            {
-                Keys = Keys.OemSemicolon,
-                Modifier = KeyModifier.Control
-            };
+            _keyListener1.HotKey = new HotKey(Settings.Default.KbdShortWin);
+            _keyListener1.TaskbarHotKey = new HotKey(Settings.Default.KbdShortTray);
 
 #if DEBUG
-            keyListener1.DebugHotKey = new HotKey
-            {
-                Keys = Keys.OemSemicolon,
-                Modifier = KeyModifier.Alt | KeyModifier.Shift
-            };
+            _keyListener1.DebugHotKey = new HotKey("Ctrl+Shift+Oem1");
 #endif
 
-            keyListener1.OnHotKeyActivated += _keyListener_OnHotKeyActivated;
-            keyListener1.OnTaskbarHotKeyActivated += _keyListener_OnTaskbarHotKeyActivated;
-            keyListener1.OnDebugHotKeyActivated += _keyListener_OnDebugHotKeyActivated;
+            _keyListener1.OnHotKeyActivated += _keyListener_OnHotKeyActivated;
+            _keyListener1.OnTaskbarHotKeyActivated += _keyListener_OnTaskbarHotKeyActivated;
+            _keyListener1.OnDebugHotKeyActivated += _keyListener_OnDebugHotKeyActivated;
 
             ShowOptionsCommand = new DelegateCommand(ShowOptions);
             ExitCommand = new DelegateCommand(Exit);
@@ -101,7 +89,7 @@ namespace HuntAndPeck.ViewModels
 
         public void ShowOptions()
         {
-            var vm = new OptionsViewModel();
+            var vm = new OptionsViewModel(_keyListener1);
             _showOptions(vm);
         }
     }

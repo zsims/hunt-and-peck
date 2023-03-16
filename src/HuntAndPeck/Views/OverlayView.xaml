@@ -13,7 +13,8 @@
     PreviewKeyDown="OverlayView_OnPreviewKeyDown">
     <local:ForegroundWindow.Resources>
         <Style x:Key="HintStyle" TargetType="TextBlock">
-            <Setter Property="Background" Value="Yellow" />
+            <Setter Property="Background" Value="{Binding FontBackroundColorReadValue}" />
+            <Setter Property="Foreground" Value="{Binding FontColorReadValue}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Active}" Value="false">
                     <Setter Property="Background" Value="LightYellow" />
@@ -25,7 +26,8 @@
         <SolidColorBrush Color="Transparent" />
     </local:ForegroundWindow.Background>
     <Grid x:Name="layoutGrid">
-        <TextBox x:Name="MatchStringControl" Text="{Binding MatchString, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Width="50" VerticalAlignment="Bottom" Background="Transparent" Foreground="White" />
+        <TextBox x:Name="MatchStringControl" Text="{Binding MatchString, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 
+                 Width="50" VerticalAlignment="Bottom" Background="Transparent" Foreground="White" />
         <ItemsControl ItemsSource="{Binding Hints}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -48,8 +50,10 @@
                                 <SolidColorBrush Color="Yellow" Opacity="0.05" />
                             </Rectangle.Fill>
                         </Rectangle>-->
-                        <Viewbox StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1 1 0 0" Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}">
-                            <TextBlock Text="{Binding Label}" FontFamily="Helvetica, Arial" FontWeight="Bold" FontSize="{Binding FontSizeReadValue}" Style="{StaticResource HintStyle}">
+                        <Viewbox StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1 1 0 0" 
+                                 Width="{Binding Hint.BoundingRectangle.Width}" Height="{Binding Hint.BoundingRectangle.Height}">
+                            <TextBlock Text="{Binding Label}" FontFamily="Helvetica, Arial" FontWeight="Bold" 
+                                       FontSize="{Binding FontSizeReadValue}" Style="{StaticResource HintStyle}">
                             </TextBlock>
                         </Viewbox>
                     </Grid>

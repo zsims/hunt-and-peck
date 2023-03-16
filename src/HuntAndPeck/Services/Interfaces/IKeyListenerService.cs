@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using HuntAndPeck.NativeMethods;
+using EnumsNET;
 
 namespace HuntAndPeck.Services.Interfaces
 {
@@ -8,6 +9,15 @@ namespace HuntAndPeck.Services.Interfaces
     {
         public KeyModifier Modifier { get; set; }
         public Keys Keys { get; set; }
+
+        public HotKey(string pomString)
+        {
+            int i = pomString.LastIndexOf('+');
+            Keys = Enums.Parse<Keys>(pomString.Substring(i + 1));
+            Modifier = FlagEnums.ParseFlags<KeyModifier>(pomString.Substring(0, i),
+                                                         ignoreCase: true,
+                                                         delimiter: "+");
+    }
 
         /// <summary>
         /// Id of the hot key registration
