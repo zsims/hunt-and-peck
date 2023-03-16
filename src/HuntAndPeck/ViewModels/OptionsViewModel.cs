@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 
 namespace HuntAndPeck.ViewModels
 {
@@ -11,6 +12,8 @@ namespace HuntAndPeck.ViewModels
         {
             DisplayName = "Options";
             FontSize = Settings.Default.FontSize;
+            FontBackroundColor = Settings.Default.FontBackroundColor;
+            FontColor= Settings.Default.FontColor;
             //Settings.Default.PropertyChanged += OnSettingsPropertyChanged;
         }
 
@@ -34,9 +37,37 @@ namespace HuntAndPeck.ViewModels
             }
         }
 
-
+        private Color _fontBackroundColor;
+        public Color FontBackroundColor
         {
+            get { return _fontBackroundColor; }
+            set
             {
+                if (_fontBackroundColor != value)
+                {
+                    _fontBackroundColor = value;
+                    OnPropertyChanged("FontBackroundColor");
+                    Settings.Default.FontBackroundColor = value;
+                    Settings.Default.Save();
+                }
+            }
+        }
+
+        private Color _fontColor;
+        public Color FontColor
+        {
+            get { return _fontColor; }
+            set
+            {
+                if (_fontColor != value)
+                {
+                    _fontColor = value;
+                    OnPropertyChanged("FontColor");
+                    Settings.Default.FontColor = value;
+                    Settings.Default.Save();
+                }
+            }
+        }
             }
         }
 
