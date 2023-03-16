@@ -11,7 +11,7 @@ namespace HuntAndPeck.ViewModels
         {
             DisplayName = "Options";
             FontSize = Settings.Default.FontSize;
-            Settings.Default.PropertyChanged += OnSettingsPropertyChanged;
+            //Settings.Default.PropertyChanged += OnSettingsPropertyChanged;
         }
 
         public string DisplayName { get; set; }
@@ -35,13 +35,34 @@ namespace HuntAndPeck.ViewModels
         }
 
 
-        private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "FontSize")
             {
-                FontSize = Settings.Default.FontSize;
             }
         }
+
+        //private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == "FontSize")
+        //    {
+        //        FontSize = Settings.Default.FontSize;
+        //    }
+        //    if (e.PropertyName == "FontBackroundColor")
+        //    { 
+        //       FontBackroundColor = Settings.Default.FontBackroundColor;
+        //    }
+        //    if (e.PropertyName == "FontColor")
+        //    {
+        //        FontColor = Settings.Default.FontColor;
+        //    }
+        //    if (e.PropertyName == "KbdShortWin")
+        //    {
+        //        KbdShortWin = Settings.Default.KbdShortWin;
+        //    }
+        //    if (e.PropertyName == "KbdShorTray")
+        //    {
+        //        KbdShortTray = Settings.Default.KbdShortTray;
+        //    }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
