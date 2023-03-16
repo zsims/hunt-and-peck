@@ -25,12 +25,31 @@
             </TabItem.Content>
         </TabItem>
         <TabItem Header="Keyboard">
-            <TabItem.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                </Grid>
+            <TabItem.Content >
+                <StackPanel>
+                    <Label Content="Window Shortcut"></Label>
+                    <Grid>
+                        <TextBox Name="tBKbdShortWin" Focusable="False" Text="{Binding KbdShortWin}"
+                                 PreviewKeyDown="TbKbdShort_PreviewKeyDown"
+                                 LostFocus="TbKbdShort_LostFocus"
+                                 Width="200" Padding="0,0,30,0" Height="30" FontSize="14"/>
+                        <Button  Name ="btnKbdShortWin" 
+                                 Click="BtnKbdShortWin_Click"  Width="75" Height="22" HorizontalAlignment="Right" Margin="0,0,5,0">
+                            Change
+                        </Button>
+                    </Grid>
+                        <Label Content="Tray Shortcut"></Label>
+                    <Grid>
+                        <TextBox Name="tBKbdShortTray" Focusable="False" Text="{Binding KbdShortTray}"
+                                 PreviewKeyDown="TbKbdShort_PreviewKeyDown"
+                                 LostFocus="TbKbdShort_LostFocus"
+                                 Width="200" Padding="0,0,30,0" Height="30" FontSize="14"/>
+                        <Button Name ="btnKbdShortTray" 
+                                Click="BtnKbdShortTray_Click" Width="75" Height="22" HorizontalAlignment="Right" Margin="0,0,5,0">
+                            Change
+                        </Button>
+                    </Grid>
+                </StackPanel>
             </TabItem.Content>
         </TabItem>
         <TabItem Header="FontSize">

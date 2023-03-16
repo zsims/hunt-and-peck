@@ -1,19 +1,23 @@
 ﻿using HuntAndPeck.Properties;
+using HuntAndPeck.Services.Interfaces;
 using System;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Media;
 
 namespace HuntAndPeck.ViewModels
 {
     internal class OptionsViewModel : INotifyPropertyChanged
     {
-        public OptionsViewModel()
+        private readonly IKeyListenerService _keyListenerService;
+        public OptionsViewModel(IKeyListenerService keyListenerService)
         {
+            _keyListenerService = keyListenerService;
             DisplayName = "Options";
             FontSize = Settings.Default.FontSize;
             FontBackroundColor = Settings.Default.FontBackroundColor;
             FontColor= Settings.Default.FontColor;
+            KbdShortWin = Settings.Default.KbdShortWin;
+            KbdShortTray = Settings.Default.KbdShortTray;
             //Settings.Default.PropertyChanged += OnSettingsPropertyChanged;
         }
 
@@ -68,6 +72,41 @@ namespace HuntAndPeck.ViewModels
                 }
             }
         }
+
+        private String _kbdShortWin;
+        public String KbdShortWin
+        {
+            get { return _kbdShortWin; }
+            set
+            {
+                if (_kbdShortWin != value)
+                {
+                    if (!value.Contains("+")) value = "Alt+Oem1";
+                    _kbdShortWin = value;
+                    OnPropertyChanged("KbdShortWin");
+                    Settings.Default.KbdShortWin = value;
+                    Settings.Default.Save();
+                    _keyListenerService.HotKey = new HotKey(Settings.Default.KbdShortWin);
+                }
+            }
+        }
+
+        private String _kbdShortTray;
+        public String KbdShortTray
+        {
+            get { return _kbdShortTray; }
+            set
+            {
+                if (_kbdShortTray != value)
+                {
+                    if (!value.Contains("+")) value = "Ctrl+Oem1";
+                    _kbdShortTray = value;
+                    OnPropertyChanged("KbdShortTray");
+                    Settings.Default.KbdShortTray = value;
+                    Settings.Default.Save();
+                    _keyListenerService.TaskbarHotKey = new HotKey(Settings.Default.KbdShortTray);
+
+                }
             }
         }
 

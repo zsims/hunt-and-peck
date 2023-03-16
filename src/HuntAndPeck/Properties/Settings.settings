@@ -11,5 +11,11 @@
     <Setting Name="FontColor" Type="System.Windows.Media.Color" Scope="User">
       <Value Profile="(Default)">#FF000000</Value>
     </Setting>
+    <Setting Name="KbdShortWin" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt+Oem1</Value>
+    </Setting>
+    <Setting Name="KbdShortTray" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Ctrl+Oem1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

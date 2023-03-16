@@ -58,7 +58,29 @@ namespace HuntAndPeck.Properties {
                 this["FontColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Alt+Oem1")]
+        public string KbdShortWin {
+            get {
+                return ((string)(this["KbdShortWin"]));
+            }
+            set {
+                this["KbdShortWin"] = value;
+            }
         }
-
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Ctrl+Oem1")]
+        public string KbdShortTray {
+            get {
+                return ((string)(this["KbdShortTray"]));
+            }
+            set {
+                this["KbdShortTray"] = value;
+            }
+        }
     }
 }
