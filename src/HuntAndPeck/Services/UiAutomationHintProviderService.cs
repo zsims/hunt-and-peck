@@ -14,8 +14,28 @@ namespace HuntAndPeck.Services
 {
     internal class UiAutomationHintProviderService : IHintProviderService, IDebugHintProviderService
     {
-        private readonly IUIAutomation _automation = new CUIAutomation();
+        private static readonly IUIAutomation _automation = new CUIAutomation();
         private static Dictionary<IntPtr, List<IUIAutomationElement>> cached = new Dictionary<IntPtr, List<IUIAutomationElement>>();
+
+        class CloseEventHandler : IUIAutomationEventHandler
+        {
+            private IntPtr closeWindowHwnd;
+
+            public CloseEventHandler(IntPtr hwnd)
+            {
+                this.closeWindowHwnd = hwnd;
+            }
+
+            public void HandleAutomationEvent(IUIAutomationElement sender, int eventId)
+            {
+                if (eventId == UIA_EventIds.UIA_Window_WindowClosedEventId)
+                {
+                    Debug.WriteLine($"Window hwnd {this.closeWindowHwnd} closed!!!");
+                    _automation.RemoveAutomationEventHandler(eventId,sender,this);
+                    cached.Remove(this.closeWindowHwnd);
+                }
+            }
+        }
 
         public HintSession EnumHints()
         {
@@ -133,6 +153,8 @@ namespace HuntAndPeck.Services
             if (!cached.ContainsKey(hWnd))
             {
                 elementArray = automationElement.FindAllBuildCache(TreeScope.TreeScope_Subtree, condition, cacheRequest);
+                _automation.AddAutomationEventHandler(UIA_EventIds.UIA_Window_WindowClosedEventId, automationElement,
+                                                      TreeScope.TreeScope_Subtree, null, new CloseEventHandler(hWnd));
                 if (elementArray != null)
                 {
                     for (var i = 0; i < elementArray.Length; ++i)
