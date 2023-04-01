@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using UIAutomationClient;
 
@@ -13,7 +14,28 @@ namespace HuntAndPeck.Services
 {
     internal class UiAutomationHintProviderService : IHintProviderService, IDebugHintProviderService
     {
-        private readonly IUIAutomation _automation = new CUIAutomation();
+        private static readonly IUIAutomation _automation = new CUIAutomation();
+        private static Dictionary<IntPtr, List<IUIAutomationElement>> cached = new Dictionary<IntPtr, List<IUIAutomationElement>>();
+
+        class CloseEventHandler : IUIAutomationEventHandler
+        {
+            private IntPtr closeWindowHwnd;
+
+            public CloseEventHandler(IntPtr hwnd)
+            {
+                this.closeWindowHwnd = hwnd;
+            }
+
+            public void HandleAutomationEvent(IUIAutomationElement sender, int eventId)
+            {
+                if (eventId == UIA_EventIds.UIA_Window_WindowClosedEventId)
+                {
+                    Debug.WriteLine($"Window hwnd {this.closeWindowHwnd} closed!!!");
+                    _automation.RemoveAutomationEventHandler(eventId,sender,this);
+                    cached.Remove(this.closeWindowHwnd);
+                }
+            }
+        }
 
         public HintSession EnumHints()
         {
@@ -66,26 +88,30 @@ namespace HuntAndPeck.Services
             var rawWindowBounds = new RECT();
             User32.GetWindowRect(hWnd, ref rawWindowBounds);
             Rect windowBounds = rawWindowBounds;
-
-            foreach (var element in elements)
-            {
-                var boundingRectObject = element.CurrentBoundingRectangle;
-                if ((boundingRectObject.right > boundingRectObject.left) && (boundingRectObject.bottom > boundingRectObject.top))
-                {
-                    var niceRect = new Rect(new Point(boundingRectObject.left, boundingRectObject.top), new Point(boundingRectObject.right, boundingRectObject.bottom));
-                    // Convert the bounding rect to logical coords
-                    var logicalRect = niceRect.PhysicalToLogicalRect(hWnd);
-                    if (!logicalRect.IsEmpty)
-                    {
-                        var windowCoords = niceRect.ScreenToWindowCoordinates(windowBounds);
-                        var hint = hintFactory(hWnd, windowCoords, element);
-                        if (hint != null)
-                        {
-                            result.Add(hint);
-                        }
-                    }
-                }
-            }
+            
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            Parallel.ForEach(elements, element =>
+             {
+                 var boundingRectObject = element.CachedBoundingRectangle;
+                 if ((boundingRectObject.right > boundingRectObject.left) && (boundingRectObject.bottom > boundingRectObject.top))
+                 {
+                     var niceRect = new Rect(new Point(boundingRectObject.left, boundingRectObject.top), new Point(boundingRectObject.right, boundingRectObject.bottom));
+                     // Convert the bounding rect to logical coords
+                     var logicalRect = niceRect.PhysicalToLogicalRect(hWnd);
+                     if (!logicalRect.IsEmpty)
+                     {
+                         var windowCoords = niceRect.ScreenToWindowCoordinates(windowBounds);
+                         var hint = hintFactory(hWnd, windowCoords, element);
+                         if (hint != null)
+                         {
+                             result.Add(hint);
+                         }
+                     }
+                 }
+             });
+            stopwatch.Stop();
+            Debug.WriteLine($"Execution time of List<Hint> creating: {stopwatch.ElapsedMilliseconds}");
 
             return new HintSession
             {
@@ -111,17 +137,57 @@ namespace HuntAndPeck.Services
 
             var conditionOnScreen = _automation.CreatePropertyCondition(UIA_PropertyIds.UIA_IsOffscreenPropertyId, false);
             var condition = _automation.CreateAndCondition(enabledControlCondition, conditionOnScreen);
+            
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var cacheRequest = _automation.CreateCacheRequest();
+            cacheRequest.AddProperty(UIA_PropertyIds.UIA_BoundingRectanglePropertyId);
+            cacheRequest.AddPattern(UIA_PatternIds.UIA_InvokePatternId);
+            cacheRequest.AddPattern(UIA_PatternIds.UIA_TogglePatternId);
+            cacheRequest.AddPattern(UIA_PatternIds.UIA_SelectionItemPatternId);
+            cacheRequest.AddPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId);
+            cacheRequest.AddPattern(UIA_PatternIds.UIA_ValuePatternId);
+            cacheRequest.AddPattern(UIA_PatternIds.UIA_RangeValuePatternId);
+            IUIAutomationElementArray elementArray = null;   
 
-            var elementArray = automationElement.FindAll(TreeScope.TreeScope_Descendants, condition);
-            if (elementArray != null)
+            if (!cached.ContainsKey(hWnd))
             {
-                for (var i = 0; i < elementArray.Length; ++i)
+                elementArray = automationElement.FindAllBuildCache(TreeScope.TreeScope_Subtree, condition, cacheRequest);
+                _automation.AddAutomationEventHandler(UIA_EventIds.UIA_Window_WindowClosedEventId, automationElement,
+                                                      TreeScope.TreeScope_Subtree, null, new CloseEventHandler(hWnd));
+                if (elementArray != null)
                 {
-                    result.Add(elementArray.GetElement(i));
+                    for (var i = 0; i < elementArray.Length; ++i)
+                    {
+                        result.Add(elementArray.GetElement(i));
+                    }
                 }
+                Debug.WriteLine($"Execution time of FindAll: {stopwatch.ElapsedMilliseconds}");
+
+            }
+            else
+            {
+                cacheRequest.TreeFilter = condition;
+                cacheRequest.TreeScope = TreeScope.TreeScope_Subtree;
+                elementArray = automationElement.BuildUpdatedCache(cacheRequest).GetCachedChildren();
+                GetAllChildren(elementArray);
+                Debug.WriteLine($"Execution time of BuildUpdatedCache(): {stopwatch.ElapsedMilliseconds}");
             }
 
+            cached[hWnd] = result;
+            stopwatch.Stop();
+
             return result;
+
+            void GetAllChildren(IUIAutomationElementArray eA)
+            {
+                for (int i = 0; i < eA.Length; i++)
+                {
+                    result.Add(eA.GetElement(i));
+                    IUIAutomationElementArray tempEa = eA.GetElement(i).GetCachedChildren();
+                    if (tempEa != null) GetAllChildren(tempEa);
+                }
+            }
         }
 
         /// <summary>
@@ -135,42 +201,42 @@ namespace HuntAndPeck.Services
         {
             try
             {
-                var invokePattern = (IUIAutomationInvokePattern)automationElement.GetCurrentPattern(UIA_PatternIds.UIA_InvokePatternId);
+                var invokePattern = (IUIAutomationInvokePattern) automationElement.GetCachedPattern(UIA_PatternIds.UIA_InvokePatternId);
                 if (invokePattern != null)
                 {
                     return new UiAutomationInvokeHint(owningWindow, invokePattern, hintBounds);
                 }
 
-                var togglePattern = (IUIAutomationTogglePattern)automationElement.GetCurrentPattern(UIA_PatternIds.UIA_TogglePatternId);
+                var togglePattern = (IUIAutomationTogglePattern) automationElement.GetCachedPattern(UIA_PatternIds.UIA_TogglePatternId);
                 if (togglePattern != null)
                 {
                     return new UiAutomationToggleHint(owningWindow, togglePattern, hintBounds);
                 }
-                
-                var selectPattern = (IUIAutomationSelectionItemPattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_SelectionItemPatternId);
+
+                var selectPattern = (IUIAutomationSelectionItemPattern) automationElement.GetCachedPattern(UIA_PatternIds.UIA_SelectionItemPatternId);
                 if (selectPattern != null)
                 {
                     return new UiAutomationSelectHint(owningWindow, selectPattern, hintBounds);
                 }
 
-                var expandCollapsePattern = (IUIAutomationExpandCollapsePattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId);
+                var expandCollapsePattern = (IUIAutomationExpandCollapsePattern) automationElement.GetCachedPattern(UIA_PatternIds.UIA_ExpandCollapsePatternId);
                 if (expandCollapsePattern != null)
                 {
                     return new UiAutomationExpandCollapseHint(owningWindow, expandCollapsePattern, hintBounds);
                 }
 
-                var valuePattern = (IUIAutomationValuePattern)automationElement.GetCurrentPattern(UIA_PatternIds.UIA_ValuePatternId);
-                if (valuePattern != null && valuePattern.CurrentIsReadOnly == 0)
+                var valuePattern = (IUIAutomationValuePattern) automationElement.GetCachedPattern(UIA_PatternIds.UIA_ValuePatternId);
+                if (valuePattern != null && valuePattern.CurrentIsReadOnly == 0)  // long(expensive) 'System.ArgumentException' when using CachedIsReadOnly
                 {
                     return new UiAutomationFocusHint(owningWindow, automationElement, hintBounds);
                 }
 
-                var rangeValuePattern = (IUIAutomationRangeValuePattern) automationElement.GetCurrentPattern(UIA_PatternIds.UIA_RangeValuePatternId);
+                var rangeValuePattern = (IUIAutomationRangeValuePattern) automationElement.GetCachedPattern(UIA_PatternIds.UIA_RangeValuePatternId);
                 if (rangeValuePattern != null && rangeValuePattern.CurrentIsReadOnly == 0)
                 {
                     return new UiAutomationFocusHint(owningWindow, automationElement, hintBounds);
                 }
-                
+
                 return null;
             }
             catch (Exception)
